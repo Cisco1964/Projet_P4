@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import tkinter as tk
-from tkinter.constants import DISABLED, E, END, EW, W
+from tkinter.constants import DISABLED, E, END, EW, W, NSEW
 from tkinter.messagebox import showwarning
 from tinydb import TinyDB
+import datetime
 
 db = TinyDB('db.json')
 tournament_table = db.table('tournament')
@@ -59,15 +62,37 @@ class Tournament(tk.Tk):
     def alim_joueurs(self):
         players_table = db.table('players')
         serialized_players = players_table.all()
-        k = 1
+        k = 20
         for item in serialized_players:
+            print(k)
             self.e = tk.Entry(self, width=3)
-            self.e.grid(row=6, column=k, sticky=W, pady=5)
-            self.e.insert(END, item['indice']) 
-            self.e.configure(state=DISABLED)
-            k += 1
+            #self.e.grid(row=6, column=k, sticky=NSEW)
+            self.e.place(x=115+k, y=165, anchor="nw")
+            self.e.insert(END, item['indice'])
+            self.e.configure(state=DISABLED) 
+            k += 20
             self.joueurs.append(self.e.get())
             print(self.joueurs)
+
+    def validatedatedeb(self):
+        if self.datedeb.get() != "":
+            print(self.datedeb.get())
+            date_format = '%d/%m/%Y'
+            try :
+                valid_date = datetime.datetime.strptime(self.datedeb.get(), date_format)
+            except ValueError:
+                showwarning("Résultat", '%s is not a valid date !' % self.datedeb.get())
+            return 0
+
+    def validatedatefin(self):
+        if self.datefin.get() != "":
+            print(self.datefin.get())
+            date_format = '%d/%m/%Y'
+            try :
+                valid_date = datetime.datetime.strptime(self.datefin.get(), date_format)
+            except ValueError:
+                showwarning("Résultat", '%s is not a valid date !' % self.datefin.get())
+            return 0
 
     def creer_widgets(self):
         self.label1 = tk.Label(self, text="Nom").grid(row=0)
@@ -100,9 +125,9 @@ class Tournament(tk.Tk):
         self.champs1.grid(row=0, column=1, columnspan=2, sticky=EW, padx=5, pady=5)
         self.champs2 = tk.Entry(self, textvariable=self.lieu)
         self.champs2.grid(row=1, column=1, columnspan=2, sticky=EW, padx=5, pady=5)
-        self.champs3 = tk.Entry(self, textvariable=self.datedeb)
+        self.champs3 = tk.Entry(self, textvariable=self.datedeb, validate='key', vcmd=self.validatedatedeb)
         self.champs3.grid(row=2, column=1, padx=5, pady=5)
-        self.champs4 = tk.Entry(self, textvariable=self.datefin)
+        self.champs4 = tk.Entry(self, textvariable=self.datefin, validate='key', vcmd=self.validatedatefin)
         self.champs4.grid(row=3, column=1, padx=5, pady=5)
         self.champs5 = tk.Entry(self, textvariable=self.tour)
         self.champs5.grid(row=4, column=1, padx=5, pady=5)
