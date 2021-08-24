@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import tkinter as tk
 from tkinter.messagebox import showwarning
 from tinydb import TinyDB
+from tkcalendar import Calendar, DateEntry
+import datetime
 
 db = TinyDB('db.json')
 players_table = db.table('players')
@@ -35,7 +39,7 @@ class Players(tk.Tk):
     def insert_user(self, compteur):
         serialized_players = {
             'indice': compteur,
-            'name': self.nom.get(), 
+            'nom': self.nom.get(), 
             'prenom': self.prenom.get(),
             'datenaissance': self.datenaissance.get(),
             'sexe': self.sex.get(),
@@ -48,7 +52,7 @@ class Players(tk.Tk):
     def reset(self):
         self.nom.set("")
         self.prenom.set("")
-        self.datenaissance.set("")
+        self.datenaissance.set_date(datetime.date.today().strftime("%d/%m/%Y"))
         self.sex.set("")
         self.classement.set(0)
         print("reset")
@@ -80,7 +84,6 @@ class Players(tk.Tk):
 
         self.nom = tk.StringVar()
         self.prenom = tk.StringVar()
-        self.datenaissance = tk.StringVar()
         self.sex = tk.StringVar()
         self.classement = tk.IntVar()
 
@@ -88,8 +91,11 @@ class Players(tk.Tk):
         self.champ1.grid(row=0, column=1, padx=5, pady=5)
         self.champ2 = tk.Entry(self, textvariable=self.prenom)
         self.champ2.grid(row=1, column=1, padx=5, pady=5)
-        self.champ3 = tk.Entry(self, textvariable=self.datenaissance)
-        self.champ3.grid(row=2, column=1, padx=5, pady=5)
+        
+        self.datenaissance = DateEntry(self, width=12, background='darkblue',
+                    foreground='white', borderwidth=2)
+        self.datenaissance.grid(row=2, column=1, padx=5, pady=5)
+
         self.champf = tk.Radiobutton(self, text="F", variable=self.sex, value="F", command=self.sexe)
         self.champf.grid(row=3, column=1)
         self.champm = tk.Radiobutton(self, text="M", variable=self.sex, value="M", command=self.sexe)
