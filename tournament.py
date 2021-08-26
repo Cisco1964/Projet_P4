@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
-from tkinter.constants import DISABLED, E, END, EW, W, NSEW
+from tkinter.constants import CENTER, DISABLED, END, EW, W
 from tkinter.messagebox import showwarning
 from tinydb import TinyDB
 from tkcalendar import DateEntry
@@ -20,7 +20,14 @@ class Tournament(tk.Tk):
         self.creer_widgets()
 
     def ctltime(self):
-        print(self.time.get())
+        pass
+        #print(self.time.get())
+
+    def check_joueurs(self):
+        self.joueurs = []
+        for item, status in self.var.items():
+            if status.get(): 
+                self.joueurs.append(item)
 
     def valid(self):
         if (self.nom.get() == ""
@@ -45,7 +52,7 @@ class Tournament(tk.Tk):
             'time': self.time.get(),
             'description': self.description.get("1.0", "end")
         }
-        print(serialized_tournament)
+        #print(serialized_tournament)
         tournament_table.insert(serialized_tournament)
         self.reset()
 
@@ -57,23 +64,29 @@ class Tournament(tk.Tk):
         self.tour.set("4")
         self.tournees.set("")
         self.time.set("")
+        for item, status in self.var.items():
+            if status.get(): 
+                status = ""
         self.description.delete("1.0", "end")
-        print("reset")
 
     def alim_joueurs(self):
+        ''' remplir la table des joueurs pour sélection '''
         players_table = db.table('players')
         serialized_players = players_table.all()
-        k = 20
+        ''' initialisation compteurs ligne(r) et position(c) '''
+        r = 6
+        c = 1
+        self.var = {}
         for item in serialized_players:
-            print(k)
-            self.e = tk.Entry(self, width=3)
-            #self.e.grid(row=6, column=k, sticky=NSEW)
-            self.e.place(x=115+k, y=165, anchor="nw")   
-            self.e.insert(END, item['indice'])
-            self.e.configure(state=DISABLED) 
-            k += 20
-            self.joueurs.append(self.e.get())
-            print(self.joueurs)
+            status = tk.BooleanVar()
+            self.var[item['indice']] = status
+            self.indice = tk.Checkbutton(self, text=item['indice'], 
+                        variable=status, command=self.check_joueurs)
+            self.indice.grid(row=r, column=c, sticky=EW)
+            c += 1 
+            if c > 3:
+               r += 1  
+               c = 1
 
     def creer_widgets(self):
         self.label1 = tk.Label(self, text="Nom").grid(row=0)
@@ -82,16 +95,16 @@ class Tournament(tk.Tk):
         self.label4 = tk.Label(self, text="Date fin").grid(row=3)
         self.label5 = tk.Label(self, text="Nombre de tours").grid(row=4)
         self.label6 = tk.Label(self, text="Tournées").grid(row=5)
-        self.label7 = tk.Label(self, text="Joueurs").grid(row=6)
-        self.label8 = tk.Label(self, text=" Contrôle du temps").grid(row=7, pady=10)
-        self.label9 = tk.Label(self, text="Description").grid(row=10)
+        self.label7 = tk.Label(self, text=" Sélectionner les joueurs").grid(row=6)
+        self.label8 = tk.Label(self, text=" Contrôle du temps").grid(row=9, pady=10)
+        self.label9 = tk.Label(self, text="Description").grid(row=11)
 
         self.bouton = tk.Button(self, text="Quitter", command=self.quit)
-        self.bouton.grid(row=12, column=1, pady=5)
+        self.bouton.grid(row=14, column=1, pady=5)
         self.bouton = tk.Button(self, text="Valider", command=self.valid)
-        self.bouton.grid(row=12, column=2)
+        self.bouton.grid(row=14, column=2)
         self.bouton = tk.Button(self, text="Reset", command=self.reset)
-        self.bouton.grid(row=12, column=3)
+        self.bouton.grid(row=14, column=3)
 
         self.nom = tk.StringVar()
         self.lieu = tk.StringVar()
@@ -101,9 +114,11 @@ class Tournament(tk.Tk):
         self.description = tk.StringVar()
 
         self.champs1 = tk.Entry(self, textvariable=self.nom)
-        self.champs1.grid(row=0, column=1, columnspan=2, sticky=EW, padx=5, pady=5)
+        self.champs1.grid(row=0, column=1, columnspan=2, sticky=EW, 
+                    padx=5, pady=5)
         self.champs2 = tk.Entry(self, textvariable=self.lieu)
-        self.champs2.grid(row=1, column=1, columnspan=2, sticky=EW, padx=5, pady=5)
+        self.champs2.grid(row=1, column=1, columnspan=2, sticky=EW, 
+                    padx=5, pady=5)
     
         self.datedeb = DateEntry(self, width=12, background='darkblue',
                     foreground='white', borderwidth=2)
@@ -117,18 +132,22 @@ class Tournament(tk.Tk):
         self.champs5.grid(row=4, column=1, padx=5, pady=5)
         self.champs6 = tk.Entry(self, textvariable=self.tournees)
         self.champs6.grid(row=5, column=1, padx=5, pady=5)
-               
+
+        ''' indices des joueurs'''       
         self.alim_joueurs()
 
-        self.time1 = tk.Radiobutton(self, text='bullet', variable=self.time, value="bullet", command=self.ctltime)
-        self.time1.grid(row=7, column=1)
-        self.time2 = tk.Radiobutton(self, text='blitz', variable=self.time, value="blitz", command=self.ctltime)
-        self.time2.grid(row=7, column=2)
-        self.time3 = tk.Radiobutton(self, text='coup rapide  ', variable=self.time, value="coup rapide", command=self.ctltime)
-        self.time3.grid(row=7, column=3)
+        self.time1 = tk.Radiobutton(self, text='bullet', variable=self.time, 
+                    value="bullet", command=self.ctltime)
+        self.time1.grid(row=9, column=1)
+        self.time2 = tk.Radiobutton(self, text='blitz', variable=self.time, 
+                    value="blitz", command=self.ctltime)
+        self.time2.grid(row=9, column=2)
+        self.time3 = tk.Radiobutton(self, text='coup rapide  ', variable=self.time, 
+                    value="coup rapide", command=self.ctltime)
+        self.time3.grid(row=9, column=3)
 
         self.description = tk.Text(self, width=20, height=10)
-        self.description.grid(row=10, column=1, columnspan=2, sticky='ew', padx=5, pady=5)
+        self.description.grid(row=11, column=1, columnspan=2, sticky='ew', padx=5, pady=5)
           
        
 if __name__ == "__main__":
