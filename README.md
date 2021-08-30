@@ -2,13 +2,11 @@
 
 # PRÉ-REQUIS 
 Création d'un environnement virtuel env
+python -m venv env
 activation de l'environnement virtuel : source env/bin/activate
 pip install tinyDB
 
-lancement des programmes Python :
-    - python3 players.py
-    - python3 tournament.py
-    - python3 score.py
+Pour lancer l'application, il faut appeler le script main_app.py :
 
 # Output file 
 db.json
