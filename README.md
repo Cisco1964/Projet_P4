@@ -6,7 +6,7 @@ python -m venv env
 activation de l'environnement virtuel : source env/bin/activate
 pip install tinyDB
 
-# Lancement application
+# Lancement de l'application
 Python3 main_app.py
 
 # Output file 
