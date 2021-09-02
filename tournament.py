@@ -12,11 +12,13 @@ db = TinyDB('db.json')
 tournament_table = db.table('tournament')
 
 
-class Tournament(tk.Tk):
+class Tournament(tk.Toplevel):
 
     def __init__(self):
-        tk.Tk.__init__(self)
+        tk.Toplevel.__init__(self)
         self.joueurs = list()
+        self.title("Tournoi")
+        self.lift()
         self.creer_widgets()
 
     def ctltime(self):
@@ -30,6 +32,9 @@ class Tournament(tk.Tk):
                 self.joueurs.append(item)
 
     def valid(self):
+        print(self.nom.get())
+        print(self.lieu.get())
+
         if (self.nom.get() == ""
         or self.lieu.get() == ""
         or self.datedeb.get() == ""
@@ -39,6 +44,9 @@ class Tournament(tk.Tk):
             showwarning("Résultat", "Saisir tous les champs.\nVeuillez recommencer !")
         else: 
             self.insert_tournament()
+            ''' Générer le round 1'''
+            #subprocess.call("first_round.py", shell=True)
+        
 
     def insert_tournament(self):
         serialized_tournament = {
@@ -62,7 +70,7 @@ class Tournament(tk.Tk):
         self.datedeb.set_date(datetime.date.today().strftime("%d/%m/%Y"))
         self.datefin.set_date(datetime.date.today().strftime("%d/%m/%Y"))
         self.tour.set("4")
-        self.tournees.set("")
+        self.tournees.set("round1")
         self.time.set("")
         for item, status in self.var.items():
             if status.get(): 
@@ -109,7 +117,7 @@ class Tournament(tk.Tk):
         self.nom = tk.StringVar()
         self.lieu = tk.StringVar()
         self.tour = tk.IntVar(self, value=4)
-        self.tournees = tk.StringVar()
+        self.tournees = tk.StringVar(self, value="round1")
         self.time = tk.StringVar()
         self.description = tk.StringVar()
 
@@ -117,7 +125,7 @@ class Tournament(tk.Tk):
         self.champs1.grid(row=0, column=1, columnspan=2, sticky=EW, 
                     padx=5, pady=5)
         self.champs2 = tk.Entry(self, textvariable=self.lieu)
-        self.champs2.grid(row=1, column=1, columnspan=2, sticky=EW, 
+        self.champs2.grid(row=1, column=1, columnspan=2, sticky=EW,
                     padx=5, pady=5)
     
         self.datedeb = DateEntry(self, width=12, background='darkblue',
@@ -147,10 +155,18 @@ class Tournament(tk.Tk):
         self.time3.grid(row=9, column=3)
 
         self.description = tk.Text(self, width=20, height=10)
-        self.description.grid(row=11, column=1, columnspan=2, sticky='ew', padx=5, pady=5)
+        self.description.grid(row=11, column=1, columnspan=2, sticky=EW, padx=5, pady=5)
+
+    def quit(self):
+        self.destroy()
+        
           
-       
-if __name__ == "__main__":
+
+if __name__ == "__main__":    
+
     app = Tournament()
-    app.title("Tournoi")
-    app.mainloop()
+    app = tk.Toplevel()
+    app.attributes('-topmost',True)
+    app.after_idle(app.attributes,'-topmost', False)
+
+    
