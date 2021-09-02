@@ -4,17 +4,18 @@
 import tkinter as tk
 from tkinter.messagebox import showwarning
 from tinydb import TinyDB
-from tkcalendar import Calendar, DateEntry
+from tkcalendar import DateEntry
 import datetime
 
 db = TinyDB('db.json')
 players_table = db.table('players')
 
 
-class Players(tk.Tk):
+class Players(tk.Toplevel):
 
     def __init__(self):
-        tk.Tk.__init__(self)
+        tk.Toplevel.__init__(self)
+        self.title("Joueurs")
         self.creer_widgets()
 
     def valid(self):
@@ -96,14 +97,24 @@ class Players(tk.Tk):
                     foreground='white', borderwidth=2)
         self.datenaissance.grid(row=2, column=1, padx=5, pady=5)
 
-        self.champf = tk.Radiobutton(self, text="F", variable=self.sex, value="F", command=self.sexe)
+        self.champf = tk.Radiobutton(self, text="F", variable=self.sex, value="F", 
+                    command=self.sexe)
         self.champf.grid(row=3, column=1)
-        self.champm = tk.Radiobutton(self, text="M", variable=self.sex, value="M", command=self.sexe)
+        self.champm = tk.Radiobutton(self, text="M", variable=self.sex, value="M", 
+                    command=self.sexe)
         self.champm.grid(row=4, column=1)
-        self.champ4 = tk.Entry(self, textvariable=self.classement, validate='key', validatecommand=(self.valid_classement, '% P'))
-        self.champ4.grid(row=5, column=1, padx=5, pady=5)             
+        self.champ4 = tk.Entry(self, textvariable=self.classement, validate='key', 
+                    validatecommand=(self.valid_classement, '% P'))
+        self.champ4.grid(row=5, column=1, padx=5, pady=5)    
+
+    def quit(self):
+        self.destroy()
+
 
 if __name__ == "__main__":
     app = Players()
-    app.title("Joueurs")
-    app.mainloop()
+    app = tk.Toplevel()
+    app.lift()
+    app.attributes('-topmost',True)
+    app.after_idle(app.attributes,'-topmost',False)
+
