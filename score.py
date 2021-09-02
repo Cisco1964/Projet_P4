@@ -1,17 +1,55 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import tkinter as tk
 from tkinter.constants import CENTER, DISABLED, END, N, NORMAL
 from tkinter.font import BOLD
 from tkinter.messagebox import showwarning
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 
 db = TinyDB('db.json')
 score_table = db.table('score')
   
-class Score(tk.Tk): 
+class Score(tk.Toplevel):
 
     def __init__(self): 
-        tk.Tk.__init__(self)
+        tk.Toplevel.__init__(self)
+        self.title("Saisir les scores")
+        lst = [
+        ("001", "Celine", 'Durand', '005' , "Karim", "Zidour", 0, 0), 
+        ("002", "Francis", "Dupond", "006", "Karen", "Durand", 0, 0), 
+        ("003", "Albert", "Londres", "007", "Josepha", "Clarisse", 0, 0), 
+        ("004", "Ahmed", "Lustre", "008", "Celine", "Howard", 0, 0)] 
+
+        resultList = [
+        ("A", "round1", ("001", "005"), 0, 0),
+        ("A", "round1", ("002", "006"), 0, 0),
+        ("A", "round1", ("003", "007"), 0, 0),
+        ("A", "round1", ("004", "008"), 0, 0)]
+   
+        global total_rows
+        global total_columns
+        total_rows = 4
+        total_columns = 8
+
+        round_table = db.table('round')
+        players_table = db.table('players')
+
+        if round_table == "":
+            showwarning("Résultat", "veuillez générer le prochain round !")
+        else:
+            serialized_round = round_table.all()
+            serialized_players = players_table.all()
+
+        match_joueurs = []
+        for item in serialized_round:
+
+            Name = Query()
+            round_table.search(Name.indice == item['joueurs'][0])
+
+            #players = Joueur(item['indice'], item['prenom'], item['nom'], item['classement'])
+            #tableau_joueurs.append(players)
+
         self.data = list()          
         for i in range(total_rows): 
             line = list()
@@ -48,51 +86,22 @@ class Score(tk.Tk):
                 line_score = []
 
     def insert_score(self, line_score):
+        joueurs = (line_score[0], line_score[3])
+        score = (line_score[6], line_score[7])
         serialized_score = {
             'tournament': resultList[0][0], 
             'round': resultList[0][1], 
-            'indice1': line_score[0],
-            'prenom1': line_score[1],
-            'nom1': line_score[2],
-            'indice2': line_score[3],
-            'prenom2': line_score[4],
-            'nom2': line_score[5],
-            'score1': line_score[6],
-            'score2': line_score[7]
+            'joueurs': joueurs,
+            'score': score,
         }
         score_table.insert(serialized_score)
         self.quit()
+
+    def quit(self):
+        self.destroy()
   
-
-lst = [
-    ("001", "Celine", 'Durand', '005' , "Karim", "Zidour", 0, 0), 
-    ("002", "Francis", "Dupond", "006", "Karen", "Durand", 0, 0), 
-    ("003", "Albert", "Londres", "007", "Josepha", "Clarisse", 0, 0), 
-    ("004", "Ahmed", "Lustre", "008", "Celine", "Howard", 0, 0)] 
-
-resultList = [
-    ("A", "round1", ("001", "005"), 0, 0),
-    ("A", "round1", ("002", "006"), 0, 0),
-    ("A", "round1", ("003", "007"), 0, 0),
-    ("A", "round1", ("004", "008"), 0, 0)]
-
-playerList = [
-    ("001", "Celine", "Durand" , "29/10/2003", "F", "7"),
-    ("002", "Francis", "Dupond", "01/12/1995", "M", "6"),
-    ("003", "Albert", "Londres", "10/12/1984", "F", "3"),
-    ("004", "Ahmed", "Lustre", "15/01/1978", "M", "5"),
-    ("005", "Karim", "Zidour" , "29/04/1995", "M", "2"),
-    ("006", "Karen", "Durand", "22/06/2010", "F", "8"),
-    ("007", "Josepha", "Clarisse", "03/02/2001", "F", "4"),
-    ("008", "Celine", "Howard", "14/08/2005", "F", "1")]
-
-   
-total_rows = len(lst) 
-total_columns = len(lst[0]) 
-
-print(total_rows)
-print(total_columns)
-
-app = Score()
-app.title("Saisir les scores")
-app.mainloop()
+if __name__ == "__main__":  
+    
+    app = Score()
+    app.title("Saisir les scores")
+    app.mainloop()
