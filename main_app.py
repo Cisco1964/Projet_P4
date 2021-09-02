@@ -2,7 +2,11 @@
 
 from tkinter import *
 from tkinter import messagebox
-from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import asksaveasfile
+from tournament import Tournament
+from players import Players
+from score import Score
+
 
 class MyWindow(Tk):
 
@@ -17,7 +21,7 @@ class MyWindow(Tk):
         menu_bar = Menu(self)
 
         menu_file = Menu(menu_bar, tearoff=0)
-        menu_file.add_command(label="Sauvegarder", command=self.do_something)
+        menu_file.add_command(label="Sauvegarder", command=self.do_save)
         menu_file.add_separator()
         menu_file.add_command(label="Quitter", command=self.quit)
         menu_bar.add_cascade(label="Fichier", menu=menu_file)
@@ -63,16 +67,23 @@ class MyWindow(Tk):
         print("Menu clicked")
 
     def do_tournament(self):
-        import tournament
-        tournament.Tournament()
+        Tournament()
 
     def do_players(self):
-        import players
-        players.Players()
+        Players()
 
     def do_score(self):
-        import score
-        score.Score()
+        Score()
+
+    def do_save(self):
+        files = [('All Files', '*.*'), 
+             ('Python Files', '*.py'),
+             ('Text Document', '*.txt')]
+        file = asksaveasfile(filetypes = files, defaultextension = files)
+  
+
+    def quit(self):
+        self.destroy()
 
 
 window = MyWindow()
