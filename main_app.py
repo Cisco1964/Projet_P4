@@ -5,6 +5,7 @@ from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
 from tournament import Tournament
 from players import Players
+from update_players import Update_players
 from score import Score
 
 
@@ -36,6 +37,7 @@ class MyWindow(Tk):
 
         menu_players = Menu(menu_bar, tearoff=0)
         menu_players.add_command(label="Saisie des joueurs", command=self.do_players)
+        menu_players.add_command(label="Mise à jour classement joueurs", command=self.do_maj_players)
         menu_bar.add_cascade(label="Joueurs", menu=menu_players)
 
         menu_score = Menu(menu_bar, tearoff=0)
@@ -71,6 +73,9 @@ class MyWindow(Tk):
 
     def do_players(self):
         Players()
+
+    def do_maj_players(self):
+        Update_players()
 
     def do_score(self):
         Score()
