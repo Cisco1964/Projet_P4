@@ -33,13 +33,13 @@ class Players_alpha(tk.Toplevel):
 
         serialized_players = players_table.all()
         serialized_players = sorted(serialized_players, key=lambda k: k['nom'])
+        
         i = 0
         for item in serialized_players:
             tv.insert(parent='', index=i, iid=i, values=(item['nom'], item['prenom'],
                 item['datenaissance'], item['sexe'], item['classement'])) 
             i += 1
     
-
 
 if __name__ == "__main__":  
 
