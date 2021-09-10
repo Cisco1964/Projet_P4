@@ -10,6 +10,7 @@ from score import Score
 from view_players_alpha import Players_alpha
 from view_players_class import Players_class
 from view_tournament import View_tournament
+from view_tournament1_players import View_tournament1_players
 
 
 class MyWindow(Tk):
@@ -56,8 +57,8 @@ class MyWindow(Tk):
         menu_rapport.add_cascade(label="Liste des joueurs", underline=0, menu=menu_liste1)
         menu_rapport.add_separator()
 
-        menu_liste2.add_command(label="par ordre alphabétique")
-        menu_liste2.add_command(label="par classement")
+        menu_liste2.add_command(label="par ordre alphabétique", command=self.do_view_joueurs_t_alpha)
+        menu_liste2.add_command(label="par classement", command=self.do_something)
         menu_rapport.add_cascade(label="Liste des joueurs d'un tournoi", menu=menu_liste2)
         menu_rapport.add_separator()
 
@@ -91,6 +92,9 @@ class MyWindow(Tk):
 
     def do_view_tournament(self):
         View_tournament()
+
+    def do_view_joueurs_t_alpha(self):
+        View_tournament1_players()
 
     def do_save(self):
         files = [('All Files', '*.*'), 
