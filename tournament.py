@@ -17,6 +17,7 @@ class Tournament(tk.Toplevel):
     def __init__(self):
         tk.Toplevel.__init__(self)
         self.joueurs = list()
+        self.checkbuttons = list()
         self.title("Tournoi")
         self.lift()
         self.creer_widgets()
@@ -29,12 +30,9 @@ class Tournament(tk.Toplevel):
         self.joueurs = []
         for item, status in self.var.items():
             if status.get(): 
-                self.joueurs.append(item)
+                self.joueurs.append(item) 
 
     def valid(self):
-        print(self.nom.get())
-        print(self.lieu.get())
-
         if (self.nom.get() == ""
         or self.lieu.get() == ""
         or self.datedeb.get() == ""
@@ -60,7 +58,6 @@ class Tournament(tk.Toplevel):
             'time': self.time.get(),
             'description': self.description.get("1.0", "end")
         }
-        #print(serialized_tournament)
         tournament_table.insert(serialized_tournament)
         self.reset()
 
@@ -72,9 +69,7 @@ class Tournament(tk.Toplevel):
         self.tour.set("4")
         self.tournees.set("round1")
         self.time.set("")
-        for item, status in self.var.items():
-            if status.get(): 
-                status = ""
+        self.checkbuttons.clear()
         self.description.delete("1.0", "end")
 
     def alim_joueurs(self):
@@ -89,8 +84,9 @@ class Tournament(tk.Toplevel):
             status = tk.BooleanVar()
             self.var[item['indice']] = status
             self.indice = tk.Checkbutton(self, text=item['indice'], 
-                        variable=status, command=self.check_joueurs)
+                        variable=status, onvalue=True, offvalue=False, command=self.check_joueurs)
             self.indice.grid(row=r, column=c, sticky=EW)
+            self.checkbuttons.append(self.indice)
             c += 1 
             if c > 3:
                r += 1  
