@@ -22,14 +22,13 @@ class Update_players(tk.Toplevel):
         total_columns = 4
 
         players_table = db.table('players')
+        serialized_players = players_table.all()
+        print(serialized_players)
 
         if players_table == "":
             showwarning("Résultat", "veuillez saisir des joueurs !")
-        else:
-            serialized_players = players_table.all()
-
+            
         total_rows = len(serialized_players)
-        print(serialized_players)
 
         tableau_joueurs = []
         for item in serialized_players:
@@ -69,7 +68,6 @@ class Update_players(tk.Toplevel):
                 line_player = []
 
     def update(self, line_player):
-        print('coucou')
         self.quit()
 
     def quit(self):
