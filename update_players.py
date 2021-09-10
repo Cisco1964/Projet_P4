@@ -69,16 +69,6 @@ class Update_players(tk.Toplevel):
                 line_player = []
 
     def update(self, line_player):
-        #serialized_players = {
-            #'nom': self.nom.get(), 
-            #'prenom': self.prenom.get(),
-            #'classement': self.classement.get(),
-        #}
-        #print(serialized_players)
-        #players_table.update(serialized_players)
-        #players_table.update({'classement':self.classement.get()})
-        joueurs = Query()
-        db.search(joueurs.classement.get() == 1)
         print('coucou')
         self.quit()
 
