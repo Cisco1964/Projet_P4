@@ -33,12 +33,12 @@ class View_tournament(tk.Toplevel):
 
         serialized_tournament = tournament_table.all()
         serialized_tournament = sorted(serialized_tournament, key=lambda k: k['name'])
-        i = 0
 
+        i = 0
         for item in serialized_tournament:
             tv.insert(parent='', index=i, iid=i, values=(item['name'], item['lieu'],
                 item['datedebut'], item['datefin'], item['tournees'])) 
-            i = i + 1
+            i += 1
     
 
 if __name__ == "__main__":  
