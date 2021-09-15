@@ -3,10 +3,11 @@
 
 import tkinter as tk
 from tkinter.constants import CENTER, DISABLED, END, EW, W
-from tkinter.messagebox import showwarning
+from tkinter.messagebox import showerror, showinfo
 from tinydb import TinyDB
 from tkcalendar import DateEntry
-import datetime
+from datetime import date
+from first_round import *
 
 db = TinyDB('db.json')
 tournament_table = db.table('tournament')
@@ -24,7 +25,6 @@ class Tournament(tk.Toplevel):
 
     def ctltime(self):
         pass
-        #print(self.time.get())
 
     def check_joueurs(self):
         self.joueurs = []
@@ -39,14 +39,16 @@ class Tournament(tk.Toplevel):
         or self.datefin.get() == ""
         or self.tour.get() == 0
         or self.tournees.get() == ""):
-            showwarning("Résultat", "Saisir tous les champs.\nVeuillez recommencer !")
+            showerror("Résultat", "Saisir tous les champs.\nVeuillez recommencer !")
         else: 
+            name_tournament = self.nom.get()
             self.insert_tournament()
             ''' Générer le round 1'''
-            #subprocess.call("first_round.py", shell=True)
+            round(name_tournament)
+            ''' Message d'information'''
+            showinfo("Résultat", "Le tournoi de {} a été créé et \nle premier tour a été généré !".format(name_tournament))
         
-
-    def insert_tournament(self):
+    def insert_tournament(self): 
         serialized_tournament = {
             'name': self.nom.get(), 
             'lieu': self.lieu.get(),
@@ -64,8 +66,8 @@ class Tournament(tk.Toplevel):
     def reset(self):
         self.nom.set("")
         self.lieu.set("")
-        self.datedeb.set_date(datetime.date.today().strftime("%d/%m/%Y"))
-        self.datefin.set_date(datetime.date.today().strftime("%d/%m/%Y"))
+        self.datedeb.set_date(date.today().strftime("%d/%m/%Y"))
+        self.datefin.set_date(date.today().strftime("%d/%m/%Y"))
         self.tour.set("4")
         self.tournees.set("round1")
         self.time.set("")
@@ -104,11 +106,11 @@ class Tournament(tk.Toplevel):
         self.label9 = tk.Label(self, text="Description").grid(row=11)
 
         self.bouton = tk.Button(self, text="Quitter", command=self.quit)
-        self.bouton.grid(row=14, column=1, pady=5)
+        self.bouton.grid(row=16, column=1, pady=30)
         self.bouton = tk.Button(self, text="Valider", command=self.valid)
-        self.bouton.grid(row=14, column=2)
+        self.bouton.grid(row=16, column=2)
         self.bouton = tk.Button(self, text="Reset", command=self.reset)
-        self.bouton.grid(row=14, column=3)
+        self.bouton.grid(row=16, column=3)
 
         self.nom = tk.StringVar()
         self.lieu = tk.StringVar()
@@ -134,7 +136,7 @@ class Tournament(tk.Toplevel):
 
         self.champs5 = tk.Entry(self, textvariable=self.tour)
         self.champs5.grid(row=4, column=1, padx=5, pady=5)
-        self.champs6 = tk.Entry(self, textvariable=self.tournees)
+        self.champs6 = tk.Entry(self, textvariable=self.tournees, state=DISABLED)
         self.champs6.grid(row=5, column=1, padx=5, pady=5)
 
         ''' indices des joueurs'''       
