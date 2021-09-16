@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
-from tkinter.messagebox import showwarning
+from tkinter.messagebox import showerror, showwarning
 from tinydb import TinyDB
 from tkcalendar import DateEntry
 import datetime
@@ -23,19 +23,22 @@ class Players(tk.Toplevel):
         or self.prenom.get() == "" 
         or self.datenaissance.get() == "" 
         or self.sex.get() == "" 
-        or self.classement.get() == 0):
-            showwarning("Résultat", "Saisir tous les champs.\nVeuillez recommencer !")
+        or self.classement.get() == 0
+        or self.classement.get() == ""):
+            showerror("Résultat", "Saisir tous les champs.\nVeuillez recommencer !")
         else:
-            elements = len(players_table)
-            if elements < 8:
-                if elements == 0:
-                    compteur = 1 
+            bool = self.numberonly()
+            if bool:
+                elements = len(players_table)
+                if elements < 8:
+                    if elements == 0:
+                        compteur = 1 
+                    else:
+                        compteur = elements + 1
+                    print(compteur)
+                    self.insert_user(compteur)
                 else:
-                    compteur = elements + 1
-                print(compteur)
-                self.insert_user(compteur)
-            else:
-                showwarning("Résultat", "Vous avez déjà saisi 8 joueurs !")
+                    showwarning("Joueurs", "Vous avez déjà saisi 8 joueurs !")
                 
     def insert_user(self, compteur):
         serialized_players = {
@@ -58,17 +61,13 @@ class Players(tk.Toplevel):
         self.classement.set(0)
         print("reset")
 
-    def sexe(self):
-        print(self.sex.get())
-
-    def valid_classement(self):
-        if self.classement.isnotdigit():
-            showwarning("Résultat", "le classement doit être numérique et > à 0 \nVeuillez recommencer !")
-            return False
-            self.classement.set("")
-        else:
+    def numberonly(self):
+        if self.classement.get() in "123456789":    
             return True
-
+        else:
+            showerror("Classement invalide", "Veuillez recommencer !")
+            return False
+            
     def creer_widgets(self):
         self.label1 = tk.Label(self, text="Nom de famille").grid(row=0)
         self.label2 = tk.Label(self, text="Prénom").grid(row=1)
@@ -86,7 +85,7 @@ class Players(tk.Toplevel):
         self.nom = tk.StringVar()
         self.prenom = tk.StringVar()
         self.sex = tk.StringVar()
-        self.classement = tk.IntVar()
+        self.classement = tk.StringVar()
 
         self.champ1 = tk.Entry(self, textvariable=self.nom)
         self.champ1.grid(row=0, column=1, padx=5, pady=5)
@@ -97,14 +96,12 @@ class Players(tk.Toplevel):
                     foreground='white', borderwidth=2)
         self.datenaissance.grid(row=2, column=1, padx=5, pady=5)
 
-        self.champf = tk.Radiobutton(self, text="F", variable=self.sex, value="F", 
-                    command=self.sexe)
+        self.champf = tk.Radiobutton(self, text="F", variable=self.sex, value="F")
         self.champf.grid(row=3, column=1)
-        self.champm = tk.Radiobutton(self, text="M", variable=self.sex, value="M", 
-                    command=self.sexe)
+        self.champm = tk.Radiobutton(self, text="M", variable=self.sex, value="M")
         self.champm.grid(row=4, column=1)
-        self.champ4 = tk.Entry(self, textvariable=self.classement, validate='key', 
-                    validatecommand=(self.valid_classement, '% P'))
+
+        self.champ4 = tk.Entry(self, textvariable=self.classement)
         self.champ4.grid(row=5, column=1, padx=5, pady=5)    
 
     def quit(self):
