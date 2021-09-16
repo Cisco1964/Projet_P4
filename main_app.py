@@ -38,6 +38,7 @@ class MyWindow(Tk):
         menu_tournament = Menu(menu_bar, tearoff=0)
         menu_tournament.add_command(label="Saisie d'un tournoi", command=self.do_tournament)
         menu_tournament.add_separator()
+        menu_tournament.add_command(label="Visualiser round 1", command=self.do_round1)
         menu_tournament.add_command(label="Générer round 2", command=self.do_round2)
         menu_tournament.add_command(label="Générer round 3", command=self.do_round3)
         menu_tournament.add_command(label="Générer round 4", command=self.do_round4)
@@ -78,6 +79,9 @@ class MyWindow(Tk):
 
     def do_tournament(self):
         Tournament()
+
+    def do_round1(self):
+        pass
 
     def do_round2(self):
         view_round("round2")
