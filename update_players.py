@@ -2,11 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
-from tkinter.constants import CENTER, DISABLED, END, N, NORMAL
+from tkinter.constants import DISABLED, END, NORMAL
 from tkinter.font import BOLD
 from tkinter.messagebox import showwarning
-from tinydb import TinyDB, Query
-from first_round import First_round
+from tinydb import TinyDB, Query, where
 
 db = TinyDB('db.json')
 players_table = db.table('players')
@@ -22,6 +21,7 @@ class Update_players(tk.Toplevel):
         total_columns = 4
 
         players_table = db.table('players')
+        print(players_table)
         serialized_players = players_table.all()
         print(serialized_players)
 
@@ -68,7 +68,10 @@ class Update_players(tk.Toplevel):
                 line_player = []
 
     def update(self, line_player):
-        self.quit()
+        players_table = db.table('players')
+        print("classement:", line_player[3], "indice : ", line_player[0])
+        Players_db = Query()
+        players_table.update({'classement': line_player[3]}, Players_db.indice == int(line_player[0]))
 
     def quit(self):
         self.destroy()
