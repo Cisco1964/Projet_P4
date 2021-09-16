@@ -34,7 +34,6 @@ class View_tour2_class(tk.Toplevel):
         tv.heading(5, text='classement')
 
         tournament_table = db.table('tournament')
-        serialized_tournament = tournament_table.all()
 
         Tournament = Query()
         result = tournament_table.search(Tournament.name == name_tournament)
@@ -49,7 +48,7 @@ class View_tour2_class(tk.Toplevel):
 
         table = []
         for i in joueurs:
-            search(i, table, serialized_players) 
+            table.append(search(i, serialized_players))
        
         table_sorted = sorted(table, key=lambda k: k['classement'])
 
@@ -59,11 +58,10 @@ class View_tour2_class(tk.Toplevel):
                 item['datenaissance'], item['sexe'], item['classement'])) 
             i = i + 1
 
-def search(i, table, serialized_players):
+def search(i, serialized_players):
     for element in serialized_players:
-        if str(element['indice']) == i:
-            table.append(element)
-            return table
+        if element['indice'] == i:
+            return element
 
 def view_class(name_tournament):
 
