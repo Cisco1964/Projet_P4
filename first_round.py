@@ -36,11 +36,11 @@ def round(name_tournament):
   round_table.insert(serialized_round)
 
   ''' écriture des matches du premier tour '''
+  print(liste_joueurs)
   i = len(serialized_players)//2
   match_table = db.table('round_match')
   for first, second in zip(liste_joueurs, islice(liste_joueurs, i, None)):
-      match = first + second
-      joueurs = (match[0], match[3])
+      joueurs = (first[0], second[0])
       score = (0, 0)
       serialized_match = {
           'tournament': name_tournament,
