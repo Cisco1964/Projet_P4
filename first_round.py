@@ -24,28 +24,21 @@ def round(name_tournament):
     ''' extraction des données '''
     liste_joueurs.append(item)
 
-  ''' écriture du premier tour '''
-  round_table = db.table('round')
-  datedeb = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
-  serialized_round = {
-       'tournament': name_tournament,
-       'round': "round1", 
-       'datedebut' : datedeb,
-       'datefin' : 0,
-        }
-  round_table.insert(serialized_round)
-
-  ''' écriture des matches du premier tour '''
-  print(liste_joueurs)
+  ''' écriture du premier round '''
   i = len(serialized_players)//2
+  
+  joueurs = []
   match_table = db.table('round_match')
   for first, second in zip(liste_joueurs, islice(liste_joueurs, i, None)):
-      joueurs = (first[0], second[0])
-      score = (0, 0)
-      serialized_match = {
-          'tournament': name_tournament,
-          'round': "round1", 
-          'joueurs': joueurs,
-          'score': score,
-        }
-      match_table.insert(serialized_match)
+      match = (first[0], second[0])
+      joueurs.append(match)
+
+  datedeb = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+  serialized_match = {
+      'tournament': name_tournament,
+      'round': "round1", 
+      'datedebut' : datedeb,
+      'datefin' : 0,
+      'joueurs': joueurs,
+      }
+  match_table.insert(serialized_match)
