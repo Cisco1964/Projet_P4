@@ -18,7 +18,7 @@ class View_tournament(tk.Toplevel):
     def construct(self):
         tv = ttk.Treeview(
         self, 
-        columns=(1, 2, 3, 4, 5), 
+        columns=(1, 2, 3, 4), 
         show='headings', 
         height=len(tournament_table)
         )
@@ -29,7 +29,6 @@ class View_tournament(tk.Toplevel):
         tv.heading(2, text='lieu')
         tv.heading(3, text='date début')
         tv.heading(4, text='date fin')
-        tv.heading(5, text='tournées')
 
         serialized_tournament = tournament_table.all()
         serialized_tournament = sorted(serialized_tournament, key=lambda k: k['name'])
@@ -37,7 +36,7 @@ class View_tournament(tk.Toplevel):
         i = 0
         for item in serialized_tournament:
             tv.insert(parent='', index=i, iid=i, values=(item['name'], item['lieu'],
-                item['datedebut'], item['datefin'], item['tournees'])) 
+                item['datedebut'], item['datefin'])) 
             i += 1
     
 
