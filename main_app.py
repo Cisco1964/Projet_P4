@@ -6,13 +6,14 @@ from tkinter.filedialog import asksaveasfile
 from tournament import Tournament
 from players import Players
 from update_players import Update_players
-from score import Score
-from view_players_alpha import Players_alpha
-from view_players_class import Players_class
+from score import update_score
+from view_all_players import *
 from view_tournament import View_tournament
-from view_tour1_alpha import View_tour1_alpha
-from view_tour1_class import View_tour1_class
-from view_tour_round import *
+from view_choice_tour import *
+from view_choice_round import *
+from view_first_round import *
+from view_clear_table import *
+
 
 
 class MyWindow(Tk):
@@ -30,7 +31,7 @@ class MyWindow(Tk):
         menu_file = Menu(menu_bar, tearoff=0)
         menu_file.add_command(label="Sauvegarder", command=self.do_save)
         menu_file.add_separator()
-        menu_file.add_command(label="Supprimer les tables", command=self.do_clear)
+        menu_file.add_command(label="Remise à blanc des tables", command=self.do_clear)
         menu_file.add_separator()
         menu_file.add_command(label="Quitter", command=self.quit)
         menu_bar.add_cascade(label="Fichier", menu=menu_file)
@@ -39,9 +40,7 @@ class MyWindow(Tk):
         menu_tournament.add_command(label="Saisie d'un tournoi", command=self.do_tournament)
         menu_tournament.add_separator()
         menu_tournament.add_command(label="Visualiser round 1", command=self.do_round1)
-        menu_tournament.add_command(label="Générer round 2", command=self.do_round2)
-        menu_tournament.add_command(label="Générer round 3", command=self.do_round3)
-        menu_tournament.add_command(label="Générer round 4", command=self.do_round4)
+        menu_tournament.add_command(label="Générer tour suivant", command=self.do_other_round)
         menu_bar.add_cascade(label="Tournois", menu=menu_tournament)
 
         menu_players = Menu(menu_bar, tearoff=0)
@@ -81,16 +80,10 @@ class MyWindow(Tk):
         Tournament()
 
     def do_round1(self):
-        pass
+        view_round1()
 
-    def do_round2(self):
-        view_round("round2")
-
-    def do_round3(self):
-        view_round("round3")
-
-    def do_round4(self):
-        view_round("round4")
+    def do_other_round(self):
+        view_gen_round()
 
     def do_players(self):
         Players()
@@ -99,22 +92,22 @@ class MyWindow(Tk):
         Update_players()
 
     def do_score(self):
-        Score()
+        update_score()
 
     def do_joueurs_alpha(self):
-        Players_alpha()
+        view_all("nom")
 
     def do_joueurs_class(self):
-        Players_class()
+        view_all("classement")
 
     def do_view_tournament(self):
         View_tournament()
 
     def do_view_joueurs_t_alpha(self):
-        View_tour1_alpha()
+        view_choice("nom")
 
     def do_view_joueurs_t_class(self):
-        View_tour1_class()
+        view_choice("classement")
 
     def do_save(self):
         files = [('All Files', '*.*'), 
@@ -123,7 +116,7 @@ class MyWindow(Tk):
         file = asksaveasfile(filetypes = files, defaultextension = files)
 
     def do_clear(self):
-        print("Menu clicked")
+        clear_table()
   
 
     def quit(self):
