@@ -1,55 +1,63 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+''' - Lecture de la table ROUND_MATCH 
+    - Saisie des scores 
+    - Mise à jour de la date de fin du round dans la table ROUND
+    - Ecriture des scores dans la table SCORE
+    - Remise à blanc de la table ROUND_MATCH'''
+
 import tkinter as tk
-from tkinter.constants import CENTER, DISABLED, END, N, NORMAL
+from tkinter.constants import DISABLED, END, NORMAL
 from tkinter.font import BOLD
-from tkinter.messagebox import showwarning
+from tkinter.messagebox import showwarning, showerror
 from tinydb import TinyDB, Query
+import datetime
 
 db = TinyDB('db.json')
 score_table = db.table('score')
-  
+
 class Score(tk.Toplevel):
 
     def __init__(self): 
         tk.Toplevel.__init__(self)
-        self.title("Saisir les scores")
-        lst = [
-        ("001", "Celine", 'Durand', '005' , "Karim", "Zidour", 0, 0), 
-        ("002", "Francis", "Dupond", "006", "Karen", "Durand", 0, 0), 
-        ("003", "Albert", "Londres", "007", "Josepha", "Clarisse", 0, 0), 
-        ("004", "Ahmed", "Lustre", "008", "Celine", "Howard", 0, 0)] 
 
-        resultList = [
-        ("A", "round1", ("001", "005"), 0, 0),
-        ("A", "round1", ("002", "006"), 0, 0),
-        ("A", "round1", ("003", "007"), 0, 0),
-        ("A", "round1", ("004", "008"), 0, 0)]
-   
+        tournament_round = db.table('round_match')
+        serialized_round_match = tournament_round.all()
+
+        tournament_players = db.table('players')
+        serialized_players = tournament_players.all()
+
+        global tournament
+        global round
+        global datedebut
+        tournament = (serialized_round_match[0]['tournament'])
+        round = (serialized_round_match[0]['round'])
+        datedebut = (serialized_round_match[0]['datedebut'])
+        joueurs = (serialized_round_match[0]['joueurs'])
+
+        self.title("Saisir les scores du {} pour le tournoi de {}".format(round, tournament))
+        self.construct(joueurs, serialized_players)
+
+    def construct(self, joueurs, serialized_players):
+        match = []
+        table_match = []
+        for item in joueurs:
+            for i in item:
+                match.append(self.search(i, serialized_players))
+            table_match.append(match)
+            match = []
+
+        liste_match = []
+        for item in table_match:
+            match = (item[0]['indice'], item[0]['prenom'], item[0]['nom'],
+                                item[1]['indice'], item[1]['prenom'], item[1]['nom'], 0, 0)
+            liste_match.append(match)
+
         global total_rows
         global total_columns
-        total_rows = 4
-        total_columns = 8
-
-        round_table = db.table('round')
-        players_table = db.table('players')
-
-        if round_table == "":
-            showwarning("Résultat", "veuillez générer le prochain round !")
-        else:
-            serialized_round = round_table.all()
-            serialized_players = players_table.all()
-
-        match_joueurs = []
-        for item in serialized_round:
-
-            Name = Query()
-            round_table.search(Name.indice == item['joueurs'][0])
-
-            #players = Joueur(item['indice'], item['prenom'], item['nom'], item['classement'])
-            #tableau_joueurs.append(players)
-
+        total_rows = len(liste_match)
+        total_columns = len(liste_match[0])
         self.data = list()          
         for i in range(total_rows): 
             line = list()
@@ -57,7 +65,7 @@ class Score(tk.Toplevel):
                 self.e = tk.Entry(self, width=20)
                 self.e.grid(row=i, column=j)
                 self.e.configure(state=NORMAL)
-                self.e.insert(END, lst[i][j]) 
+                self.e.insert(END, liste_match[i][j]) 
                 if j < 6:
                     self.e.configure(state=DISABLED)
                 line.append(self.e) 
@@ -67,41 +75,80 @@ class Score(tk.Toplevel):
         self.bouton = tk.Button(self, text="Valider", command=self.valid)
         self.bouton.grid(row=10, column=4)
 
+
     def valid(self):
+        """Contrôle de la saisie"""
         my_bool = True
         for i in range(total_rows):    
             result = float(0)
             result = float(self.data[i][6].get()) + float(self.data[i][7].get()) 
             print(result)
             if result > 1 or result == 0:
-                showwarning("Résultat", "Score invalide.\nVeuillez recommencer !")
+                showerror("Résultat", "Score invalide.\nVeuillez recommencer !")
                 my_bool = False
                 break
         if my_bool:
             line_score = []
+            players_round = []
             for i in range(total_rows):   
                 for j in range(total_columns): 
                     line_score.append(self.data[i][j].get())
                 self.insert_score(line_score)
+                joueurs = (int(line_score[0]), int(line_score[3]))
+                players_round.append(joueurs)
                 line_score = []
+            self.update_round(joueurs)
+            db.drop_table('round_match')
+            self.quit()
+
 
     def insert_score(self, line_score):
-        joueurs = (line_score[0], line_score[3])
-        score = (line_score[6], line_score[7])
+        """Ecriture de l'enregistrement SCORE """
+        joueurs = (int(line_score[0]), int(line_score[3]))
+        score = (float(line_score[6]), float(line_score[7]))
         serialized_score = {
-            'tournament': resultList[0][0], 
-            'round': resultList[0][1], 
+            'tournament': tournament, 
+            'round': round, 
             'joueurs': joueurs,
             'score': score,
         }
         score_table.insert(serialized_score)
-        self.quit()
+        
+
+    def update_round(self, joueurs):
+        """Ecriture de l'enregistrement ROUND"""
+        round_table = db.table('round)')
+        datefin = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+        serialized_round = {
+            'tournament': tournament, 
+            'round': round, 
+            'joueurs': joueurs,
+            'datedebut' : datedebut,
+            'datefin' : datefin
+            
+        }
+        round_table.insert(serialized_round)
+
+
+    def search(self, i, serialized_players):
+        """Récupération des éléments du joueur"""
+        for element in serialized_players:
+            if element['indice'] == i:
+                return element
+
 
     def quit(self):
+        """Exit"""
         self.destroy()
   
-if __name__ == "__main__":  
-    
-    app = Score()
-    app.title("Saisir les scores")
-    app.mainloop()
+
+def update_score():
+    tournament_round = db.table('round_match')
+    serialized_round_match = tournament_round.all()
+    try:
+        serialized_round_match[0]['tournament'] == ""
+    except IndexError as e:
+        showerror("Résultat", "Aucun tour en attente de saisie!")
+    else:
+        tournament = serialized_round_match[0]['tournament']
+        Score()
