@@ -62,7 +62,6 @@ def search(i, serialized_players):
 def view_round():
     round_table = db.table('round_match')
     serialized_round = round_table.all()
-    print("coucou", serialized_round[0]['tournament'])
     try:
         serialized_round == []
     except IndexError:
