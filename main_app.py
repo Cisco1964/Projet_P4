@@ -11,7 +11,7 @@ from view_all_players import *
 from view_tournament import View_tournament
 from view_choice_tour import *
 from view_choice_round import *
-from view_first_round import *
+from view_round import *
 from view_clear_table import *
 
 
@@ -39,8 +39,8 @@ class MyWindow(Tk):
         menu_tournament = Menu(menu_bar, tearoff=0)
         menu_tournament.add_command(label="Saisie d'un tournoi", command=self.do_tournament)
         menu_tournament.add_separator()
-        menu_tournament.add_command(label="Visualiser round 1", command=self.do_round1)
         menu_tournament.add_command(label="Générer tour suivant", command=self.do_other_round)
+        menu_tournament.add_command(label="Visualiser le tour en cours", command=self.do_round1)
         menu_bar.add_cascade(label="Tournois", menu=menu_tournament)
 
         menu_players = Menu(menu_bar, tearoff=0)
@@ -80,7 +80,7 @@ class MyWindow(Tk):
         Tournament()
 
     def do_round1(self):
-        view_round1()
+        view_round()
 
     def do_other_round(self):
         view_gen_round()
