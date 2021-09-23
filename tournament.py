@@ -7,7 +7,7 @@ from tkinter.messagebox import showerror, showinfo
 from tinydb import TinyDB
 from tkcalendar import DateEntry
 from datetime import date
-from first_round import *
+from create_round import *
 
 db = TinyDB('db.json')
 tournament_table = db.table('tournament')
@@ -33,29 +33,35 @@ class Tournament(tk.Toplevel):
                 self.joueurs.append(item) 
 
     def valid(self):
+        ''' controle de la saisie et validation si tout ok '''
         if (self.nom.get() == ""
         or self.lieu.get() == ""
         or self.datedeb.get() == ""
         or self.datefin.get() == ""
         or self.tour.get() == 0
         or self.tournees.get() == ""):
+            # message d'erreur
             showerror("Résultat", "Saisir tous les champs.\nVeuillez recommencer !")
         else: 
+            # création du tournoi
             name_tournament = self.nom.get()
             self.insert_tournament()
-            ''' Générer le round 1'''
-            round(name_tournament)
-            ''' Message d'information'''
+            # appel du script pour générer le round 1
+            name_round = "round1"
+            round(name_tournament, name_round)
+            # message d'information
             showinfo("Résultat", "Le tournoi de {} a été créé et \nle premier tour a été généré !".format(name_tournament))
         
     def insert_tournament(self): 
+        ''' création de l'enregistrement '''
+        nom_round = ['round1']
         serialized_tournament = {
             'name': self.nom.get(), 
             'lieu': self.lieu.get(),
             'datedebut': self.datedeb.get(),
             'datefin': self.datefin.get(),
             'tour': self.tour.get(),
-            'tournees': self.tournees.get(),
+            'round': nom_round,
             'joueurs': self.joueurs,
             'time': self.time.get(),
             'description': self.description.get("1.0", "end")
@@ -64,6 +70,7 @@ class Tournament(tk.Toplevel):
         self.reset()
 
     def reset(self):
+        ''' initialisation des champs de saisie '''
         self.nom.set("")
         self.lieu.set("")
         self.datedeb.set_date(date.today().strftime("%d/%m/%Y"))
@@ -139,7 +146,7 @@ class Tournament(tk.Toplevel):
         self.champs6 = tk.Entry(self, textvariable=self.tournees, state=DISABLED)
         self.champs6.grid(row=5, column=1, padx=5, pady=5)
 
-        ''' indices des joueurs'''       
+        # indices des joueurs       
         self.alim_joueurs()
 
         self.time1 = tk.Radiobutton(self, text='bullet', variable=self.time, 
@@ -156,8 +163,8 @@ class Tournament(tk.Toplevel):
         self.description.grid(row=11, column=1, columnspan=2, sticky=EW, padx=5, pady=5)
 
     def quit(self):
+        ''' Exit '''
         self.destroy()
-        
           
 
 if __name__ == "__main__":    
