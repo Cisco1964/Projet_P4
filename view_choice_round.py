@@ -57,7 +57,8 @@ class View_choice_round(tk.Toplevel):
                 showerror("Résultat", "Tous les tours ont été générés")
             else:
                 next_round = res[0]
-                #create_round()
+                # génération du tour suivant
+                round(value, next_round)
 
             
     def quit(self):
