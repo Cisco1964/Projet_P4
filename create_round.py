@@ -6,19 +6,22 @@ from tinydb.operations import add
 from itertools import islice, groupby
 import datetime
 
-
 db = TinyDB('db.json')
 
 
 def round(name_tournament, round):
-  print(name_tournament)
-  print(round)
+  #round_table = db.table('round_match')
+  #serialized_round = round_table.all()
+  #try:
+      #serialized_round != []
+  #except IndexError:
+      #showerror("Résultat", "Aucun tour en attente !")
+
   players_table = db.table('players')
   serialized_players = players_table.all()
   tableau_joueurs = []
   for item in serialized_players:
     players = [item['indice'], item['prenom'], item['nom'], item['classement']]
-    #print(players)
     tableau_joueurs.append(players)
 
   liste_joueurs = []
@@ -129,6 +132,6 @@ def update_tournament(name_tournament, round):
   print(name_tournament, round)
   tournament_table = db.table('tournament')
   tournament_db = Query()
-  tournament_table.update(add('round', round), tournament_db.tournament == name_tournament)
+  tournament_table.update(add('round', round), tournament_db.name == name_tournament)
 
 
