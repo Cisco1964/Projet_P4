@@ -47,7 +47,7 @@ class Players(tk.Toplevel):
             'prenom': self.prenom.get(),
             'datenaissance': self.datenaissance.get(),
             'sexe': self.sex.get(),
-            'classement': self.classement.get(),
+            'classement': int(self.classement.get()),
         }
         print(serialized_players)
         players_table.insert(serialized_players)
