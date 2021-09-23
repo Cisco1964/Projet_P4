@@ -4,7 +4,8 @@
 import tkinter as tk
 from tinydb import TinyDB, where
 from tkinter.constants import W
-from view_players_tour import *
+from tkinter.messagebox import showerror, showinfo
+from create_round import *
 
 db = TinyDB('db.json')
 tournament_table = db.table('tournament')
@@ -39,13 +40,24 @@ class View_choice_round(tk.Toplevel):
         pass
 
     def valid(self, value):
-        self.control_round(value)
-
-    def control_round(self, value):
-        round = db.table('round')
+        table_round = db.table('round')
         Round = Query()
-        print(round.search(Round.tournament == value))
-        list_round = ["round1", "round2", "round3", "round4"]
+        # extraction round
+        result = table_round.search(Round['tournament'] == value)
+        if result == []:
+            showerror("Résultat", "Aucun tour n'a été généré")
+        else:    
+            round = ["round1", "round2", "round3", "round4"]
+            # recherche des rounds déjà générés
+            list_round = [item['round'] for item in result]
+            print(list_round)
+            # recherche du round non généré
+            res = [x for x in round if x not in list_round]
+            if res == []:
+                showerror("Résultat", "Tous les tours ont été générés")
+            else:
+                next_round = res[0]
+                #create_round()
 
             
     def quit(self):
