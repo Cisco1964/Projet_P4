@@ -4,13 +4,13 @@
 from tinydb import TinyDB, Query
 from tinydb.operations import add
 from itertools import islice
-from tkinter.messagebox import showerror
+from tkinter.messagebox import showerror, showinfo
 import datetime
 
 db = TinyDB('db.json')
 
 
-def round(name_tournament, round):
+def round(id_tournament, round):
 
     round_table = db.table('round_match')
     serialized_round = round_table.all()
@@ -19,66 +19,65 @@ def round(name_tournament, round):
     else:
         players_table = db.table('players')
         serialized_players = players_table.all()
-        tableau_joueurs = []
+        array_players = []
         for item in serialized_players:
             players = [item['indice'], item['prenom'], item['nom'], item['classement']]
-            tableau_joueurs.append(players)
+            array_players.append(players)
 
-        liste_joueurs = []
-        for item in tableau_joueurs:
-            # extraction des données 
-            liste_joueurs.append(item)
+        list_players = []
+        for item in array_players:
+            # data extraction
+            list_players.append(item)
 
-        # premier round
+        # first round
+        my_players = []
         if round == "round1":
             i = len(serialized_players)//2
-            joueurs = []
-            for first, second in zip(liste_joueurs, islice(liste_joueurs, i, None)):
+            for first, second in zip(list_players, islice(list_players, i, None)):
                 match = (first[0], second[0])
-                joueurs.append(match)
-            # écriture du round
-            add_round(name_tournament, round, joueurs)
+                my_players.append(match)
+            # writing of the round
+            add_round(id_tournament, round, my_players)
         else:
-            # écriture les autres tours
-            joueurs = []
-            other_round(name_tournament, round, serialized_players, joueurs)
-            # écriture du round
-            add_round(name_tournament, round, joueurs)
-            # mise à jour du tournoi pour le round
-            update_tournament(name_tournament, round)
+            # writing of the other rounds
+            other_round(id_tournament, round, serialized_players, my_players)
+            # writing of the round
+            add_round(id_tournament, round, my_players)
+            # tournament update for the round
+            update_tournament(id_tournament, round)
+            # information message
+            showinfo("Résultat", "le {} a été généré".format(round))
 
 
-def other_round(name_tournament, round, serialized_players, joueurs):
+def other_round(id_tournament, round, serialized_players, my_players):
 
-    score_round = db.table('score')
-    Round = Query()
-    result = score_round.search(Round.tournament == name_tournament)
-    # stocker les matchs dejà joué
-    serialized_score = score_round.all()
-    liste_match = list(map(lambda x: x['joueurs'], serialized_score))
-    tup_joueur = {}
+    # store matches already played
+    result = research_score(id_tournament)
+    list_match = list(map(lambda x: x['joueurs'], result))
+    tup_players = {}
     match = []
     for item in result:
-        for i, id in enumerate(item['joueurs']):
-            tup_joueur = id, item['score'][i]
-            match.append(tup_joueur)
-        # Convertion en dictionnaire
+        for i, elem in enumerate(item['joueurs']):
+            tup_players = elem, item['score'][i]
+            match.append(tup_players)
+        # Conversion to dictionnary
         tup = {i: 0 for i, v in match}
         # Consolidation des points par indice
         for key, value in match:
             tup[key] = tup[key]+value
         # using map
         resultat = list(map(tuple, tup.items()))
-        # recherche du classement du joueur
-        res = []
+    print(resultat)
+    res = []
+    # research of player ranking
     for item in resultat:
         classement = search(item[0], serialized_players)
         add_classement = (classement,)
         tup = item + add_classement
         res.append(tup)
-    # tri de la liste par points (reverse) et par classement
+    # sort the list by point (reverse) and ranking
     a = sorted(res, key=lambda x: (-x[1], x[2]))
-    # generation du round
+    # round génération
     array_ctl = []
     for item in a:
         if item[0] not in array_ctl:
@@ -86,18 +85,18 @@ def other_round(name_tournament, round, serialized_players, joueurs):
                 if i[0] not in array_ctl:
                     if item[0] != i[0]:
                         m = [item[0], i[0]]
-                        elem = compare(m, liste_match)
+                        elem = compare(m, list_match)
                         if elem is not False:
-                            joueurs.append(m)
+                            my_players.append(m)
                             array_ctl.append(i[0])
                             array_ctl.append(item[0])
                         break
 
 
-def compare(m, liste_match):
+def compare(m, list_match):
 
-    """Récupération du classement du joueur"""
-    for i in liste_match:
+    """ Recovery of player ranking"""
+    for i in list_match:
         m = list(m)
         n = list(reversed(m))
         if m == i or n == i:
@@ -105,29 +104,41 @@ def compare(m, liste_match):
 
 
 def search(i, serialized_players):
-    
-    """Récupération du classement du joueur"""
+
+    """Reseach of player ranking """
     for element in serialized_players:
         if element['indice'] == i:
             return int(element['classement'])
 
 
-def add_round(name_tournament, round, joueurs):
+def research_score(id_tournament):
 
-    """ création du round """
+    '''Research all the round'''
+    score_round = db.table('score')
+    serialized_score = score_round.all()
+    score = []
+    for element in serialized_score:
+        if element['id'] == int(id_tournament):
+            score.append(element)
+    return score
+
+
+def add_round(id_tournament, round, my_players):
+
+    """ create round """
     datedeb = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
-    serialized_match = {'tournament': name_tournament,
-                        'round': round, 
-                        'datedebut': datedeb, 
-                        'joueurs': joueurs}
+    serialized_match = {'id': int(id_tournament),
+                        'round': round,
+                        'datedebut': datedeb,
+                        'joueurs': my_players}
     db.table('round_match').insert(serialized_match)
 
 
-def update_tournament(name_tournament, round):
+def update_tournament(id_tournament, round):
 
-    ''''update value du champs round'''
+    ''''update value round'''
     tournament_table = db.table('tournament')
     tournament_db = Query()
     # transform_round = round.split()
     # print(type(transform_round))
-    tournament_table.update(add('round', round.split()), tournament_db.name == name_tournament)
+    tournament_table.update(add('round', round.split()), tournament_db.id == int(id_tournament))
