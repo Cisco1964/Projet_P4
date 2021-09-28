@@ -11,7 +11,9 @@ python3 main_app.py
 
 * Saisir les joueurs  
 * Créér un tournoi : le premier round est généré automatiquement 
+* Visualiser le tour en cours
 * Saisir les scores
+* Mise à jour du classement des joueurs
 * Générer les rounds suivant
 * Rapports
 
@@ -21,6 +23,6 @@ db.json
 # Tables
 * players  
 * tournament  
-* score.py
 * round_match
-* round  
+* round
+* score  
