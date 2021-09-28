@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
-from tkinter.constants import CENTER, DISABLED, END, EW, W
+from tkinter.constants import DISABLED, EW
 from tkinter.messagebox import showerror, showinfo
 from tinydb import TinyDB
 from tkcalendar import DateEntry
 from datetime import date
-from create_round import *
+from create_round import round
 
 db = TinyDB('db.json')
 tournament_table = db.table('tournament')
@@ -16,8 +16,9 @@ tournament_table = db.table('tournament')
 class Tournament(tk.Toplevel):
 
     def __init__(self):
+
         tk.Toplevel.__init__(self)
-        self.joueurs = list()
+        self.players = list()
         self.checkbuttons = list()
         self.title("Tournoi")
         self.lift()
@@ -26,43 +27,50 @@ class Tournament(tk.Toplevel):
     def ctltime(self):
         pass
 
-    def check_joueurs(self):
-        self.joueurs = []
+    def check_players(self):
+
+        self.players = []
         for item, status in self.var.items():
-            if status.get(): 
-                self.joueurs.append(item) 
+            if status.get():
+                self.players.append(item)
 
     def valid(self):
-        ''' controle de la saisie et validation si tout ok '''
+
+        ''' control of the entry and validation if all ok '''
         if (self.nom.get() == ""
-        or self.lieu.get() == ""
-        or self.datedeb.get() == ""
-        or self.datefin.get() == ""
-        or self.tour.get() == 0
-        or self.tournees.get() == ""):
-            # message d'erreur
+           or self.lieu.get() == ""
+           or self.datedeb.get() == ""
+           or self.datefin.get() == ""
+           or self.tour.get() == 0
+           or self.tournees.get() == ""):
+            # error message
             showerror("Résultat", "Saisir tous les champs.\nVeuillez recommencer !")
-        else: 
-            # création du tournoi
+        else:
+            # tournament creation
             name_tournament = self.nom.get()
-            self.insert_tournament()
-            # appel du script pour générer le round 1
+            # search for the last tournament created
+            num_tournament = self.last_id()
+            self.insert_tournament(num_tournament)
+            # call of the script to generate the first round
             name_round = "round1"
-            round(name_tournament, name_round)
-            # message d'information
-            showinfo("Résultat", "Le tournoi de {} a été créé et \nle premier tour a été généré !".format(name_tournament))
-        
-    def insert_tournament(self): 
-        ''' création de l'enregistrement '''
+            round(num_tournament, name_round)
+            # information message
+            showinfo("Résultat", "Le tournoi de {} a été créé et\n"
+                     "le premier tour a été généré !".format(name_tournament))
+
+    def insert_tournament(self, num_tournament):
+
+        ''' record creation '''
         nom_round = ['round1']
         serialized_tournament = {
-            'name': self.nom.get(), 
+            'id': num_tournament,
+            'name': self.nom.get(),
             'lieu': self.lieu.get(),
             'datedebut': self.datedeb.get(),
             'datefin': self.datefin.get(),
             'tour': self.tour.get(),
             'round': nom_round,
-            'joueurs': self.joueurs,
+            'joueurs': self.players,
             'time': self.time.get(),
             'description': self.description.get("1.0", "end")
         }
@@ -70,7 +78,8 @@ class Tournament(tk.Toplevel):
         self.reset()
 
     def reset(self):
-        ''' initialisation des champs de saisie '''
+
+        ''' initialization of input fields '''
         self.nom.set("")
         self.lieu.set("")
         self.datedeb.set_date(date.today().strftime("%d/%m/%Y"))
@@ -81,27 +90,40 @@ class Tournament(tk.Toplevel):
         self.checkbuttons.clear()
         self.description.delete("1.0", "end")
 
-    def alim_joueurs(self):
-        ''' remplir la table des joueurs pour sélection '''
+    def alim_players(self):
+
+        ''' fill in the table of players for selection '''
         players_table = db.table('players')
         serialized_players = players_table.all()
-        ''' initialisation compteurs ligne(r) et position(c) '''
+        ''' initialization of line (r) and position (c) counters '''
         r = 6
         c = 1
         self.var = {}
         for item in serialized_players:
             status = tk.BooleanVar()
             self.var[item['indice']] = status
-            self.indice = tk.Checkbutton(self, text=item['indice'], 
-                        variable=status, onvalue=True, offvalue=False, command=self.check_joueurs)
+            self.indice = tk.Checkbutton(self, text=item['indice'],
+                                         variable=status, onvalue=True, offvalue=False,
+                                         command=self.check_players)
             self.indice.grid(row=r, column=c, sticky=EW)
             self.checkbuttons.append(self.indice)
-            c += 1 
+            c += 1
             if c > 3:
-               r += 1  
-               c = 1
+                r += 1
+                c = 1
+
+    def last_id(self):
+
+        ''' Research the last id of tournament'''
+        if len(tournament_table) == 0:
+            num = 1
+        else:
+            table_sorted = sorted(tournament_table, key=lambda x: x['id'], reverse=True)
+            num = table_sorted[0]['id'] + 1
+        return num
 
     def creer_widgets(self):
+
         self.label1 = tk.Label(self, text="Nom").grid(row=0)
         self.label2 = tk.Label(self, text="Lieu").grid(row=1)
         self.label3 = tk.Label(self, text="Date début").grid(row=2)
@@ -127,18 +149,18 @@ class Tournament(tk.Toplevel):
         self.description = tk.StringVar()
 
         self.champs1 = tk.Entry(self, textvariable=self.nom)
-        self.champs1.grid(row=0, column=1, columnspan=2, sticky=EW, 
-                    padx=5, pady=5)
+        self.champs1.grid(row=0, column=1, columnspan=2, sticky=EW,
+                          padx=5, pady=5)
         self.champs2 = tk.Entry(self, textvariable=self.lieu)
         self.champs2.grid(row=1, column=1, columnspan=2, sticky=EW,
-                    padx=5, pady=5)
-    
+                          padx=5, pady=5)
+
         self.datedeb = DateEntry(self, width=12, background='darkblue',
-                    foreground='white', borderwidth=2)
+                                 foreground='white', borderwidth=2)
         self.datedeb.grid(row=2, column=1, padx=5, pady=5)
 
         self.datefin = DateEntry(self, width=12, background='darkblue',
-                    foreground='white', borderwidth=2)
+                                 foreground='white', borderwidth=2)
         self.datefin.grid(row=3, column=1, padx=5, pady=5)
 
         self.champs5 = tk.Entry(self, textvariable=self.tour)
@@ -146,32 +168,30 @@ class Tournament(tk.Toplevel):
         self.champs6 = tk.Entry(self, textvariable=self.tournees, state=DISABLED)
         self.champs6.grid(row=5, column=1, padx=5, pady=5)
 
-        # indices des joueurs       
-        self.alim_joueurs()
+        # player clues
+        self.alim_players()
 
-        self.time1 = tk.Radiobutton(self, text='bullet', variable=self.time, 
-                    value="bullet", command=self.ctltime)
+        self.time1 = tk.Radiobutton(self, text='bullet', variable=self.time,
+                                    value="bullet", command=self.ctltime)
         self.time1.grid(row=9, column=1)
-        self.time2 = tk.Radiobutton(self, text='blitz', variable=self.time, 
-                    value="blitz", command=self.ctltime)
+        self.time2 = tk.Radiobutton(self, text='blitz', variable=self.time,
+                                    value="blitz", command=self.ctltime)
         self.time2.grid(row=9, column=2)
-        self.time3 = tk.Radiobutton(self, text='coup rapide  ', variable=self.time, 
-                    value="coup rapide", command=self.ctltime)
+        self.time3 = tk.Radiobutton(self, text='coup rapide  ', variable=self.time,
+                                    value="coup rapide", command=self.ctltime)
         self.time3.grid(row=9, column=3)
-
         self.description = tk.Text(self, width=20, height=10)
         self.description.grid(row=11, column=1, columnspan=2, sticky=EW, padx=5, pady=5)
 
     def quit(self):
+
         ''' Exit '''
         self.destroy()
-          
 
-if __name__ == "__main__":    
+
+if __name__ == "__main__":
 
     app = Tournament()
     app = tk.Toplevel()
-    app.attributes('-topmost',True)
-    app.after_idle(app.attributes,'-topmost', False)
-
-    
+    app.attributes('-topmost', True)
+    app.after_idle(app.attributes, '-topmost', False)
