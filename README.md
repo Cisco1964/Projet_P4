@@ -1,18 +1,18 @@
 # Projet_P4
 
 # PRÉ-REQUIS 
-Création d'un environnement virtuel env
-python -m venv env
-activation de l'environnement virtuel : source env/bin/activate
-pip install tinyDB
+Création d'un environnement virtuel env  
+python -m venv env  
+activation de l'environnement virtuel : source env/bin/activate  
+installation des packages : voir le fichier requirements.txt  
 
-# Lancement de l'application
-Python3 main_app.py
+# Lancement du projet
+python3 main_app.py  
 
 # Output file 
-db.json
+db.json  
 
 # Tables
-players.py : table players,
-tournament.py : table tournament
-score.py : table scores
+players.py : table players,  
+tournament.py : table tournament  
+score.py : table scores  
