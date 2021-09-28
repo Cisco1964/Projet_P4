@@ -10,12 +10,17 @@ installation des packages : voir le fichier requirements.txt
 python3 main_app.py
 
 * Saisir les joueurs  
-* Créér un tournoi  
+* Créér un tournoi : le premier round est généré automatiquement 
+* Saisir les scores
+* Générer les rounds suivant
+* Rapports
 
 # Output file 
 db.json
 
 # Tables
-players.py : table players,  
-tournament.py : table tournament  
-score.py : table scores  
+* players  
+* tournament  
+* score.py
+* round_match
+* round  
