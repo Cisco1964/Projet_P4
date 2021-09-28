@@ -5,6 +5,7 @@ from tinydb import TinyDB
 db = TinyDB('db.json')
 tournament_table = db.table('tournament')
 
+
 class View_tournament(tk.Toplevel):
 
     def __init__(self):
@@ -16,12 +17,8 @@ class View_tournament(tk.Toplevel):
         self.construct()
 
     def construct(self):
-        tv = ttk.Treeview(
-        self, 
-        columns=(1, 2, 3, 4), 
-        show='headings', 
-        height=len(tournament_table)
-        )
+        tv = ttk.Treeview(self, columns=(1, 2, 3, 4), show='headings',
+                          height=len(tournament_table))
 
         tv.pack()
 
@@ -36,12 +33,10 @@ class View_tournament(tk.Toplevel):
         i = 0
         for item in serialized_tournament:
             tv.insert(parent='', index=i, iid=i, values=(item['name'], item['lieu'],
-                item['datedebut'], item['datefin'])) 
+                      item['datedebut'], item['datefin']))
             i += 1
-    
 
-if __name__ == "__main__":  
+
+if __name__ == "__main__":
 
     ws = View_tournament()
-
-
