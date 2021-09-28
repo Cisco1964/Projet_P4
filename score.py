@@ -175,6 +175,6 @@ def update_score():
     tournament_round = db.table('round_match')
     serialized_round_match = tournament_round.all()
     if len(serialized_round_match) == 0:
-        showerror("Résultat", "Aucun tour en attente de saisie!")
+        showerror("Résultat", "Aucun tour en attente de saisie")
     else:
         Score()
