@@ -7,6 +7,9 @@ activation de l'environnement virtuel : source env/bin/activate
 installation des packages : voir le fichier requirements.txt    
 
 # Lancement du projet
+
+Le programme est écrit en Python, copier tous les fichiers et repertoires du repository, et lancer le programme depuis un terminal via la commande :
+
 python3 main_app.py
 
 # Contenu du projet
@@ -17,7 +20,7 @@ python3 main_app.py
 5. Mise à jour du classement des joueurs
 6. Générer les rounds suivant
 
-# Autres options
+# Autres options du menu
 * Rapports
 * Sauvegarde des fichiers
 * Mise à blanc des tables
