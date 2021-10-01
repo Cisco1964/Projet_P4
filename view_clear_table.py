@@ -26,7 +26,6 @@ class View_clear_table(tk.Toplevel):
         self.var = {}
         status = tk.StringVar()
         for item in name_table:
-            print(status)
             self.var[item] = status
             self.indice = tk.Radiobutton(self, text=item,
                                          variable=status, value=item)
@@ -49,7 +48,3 @@ class View_clear_table(tk.Toplevel):
 
         ''' Exit'''
         self.destroy()
-
-
-def clear_table():
-    View_clear_table()
