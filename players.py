@@ -112,11 +112,3 @@ class Players(tk.Toplevel):
 
         ''' Exit'''
         self.destroy()
-
-
-if __name__ == "__main__":
-    app = Players()
-    app = tk.Toplevel()
-    app.lift()
-    app.attributes('-topmost', True)
-    app.after_idle(app.attributes, '-topmost', False)
