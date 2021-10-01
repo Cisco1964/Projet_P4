@@ -100,8 +100,3 @@ def research_score(id_tournament):
         if element['id'] == int(id_tournament):
             score.append(element)
     return score
-
-
-def view_m_tour(id_tournament):
-
-    View_match_tour(id_tournament)
