@@ -9,15 +9,15 @@ installation des packages : voir le fichier requirements.txt
 # Lancement du projet
 python3 main_app.py
 
-# Contenu du projetS
-1. Saisir les joueurs  
+# Contenu du projet
+1. Saisie des joueurs  
 2. Créér un tournoi : le premier round est généré automatiquement   
-3. Visualiser le tour en cours
+3. Visualiser le round en cours
 4. Saisir les scores
 5. Mise à jour du classement des joueurs
 6. Générer les rounds suivant
 
-
+# Autres options
 * Rapports
 * Sauvegarde des fichiers
 * Mise à blanc des tables
