@@ -187,11 +187,3 @@ class Tournament(tk.Toplevel):
 
         ''' Exit '''
         self.destroy()
-
-
-if __name__ == "__main__":
-
-    app = Tournament()
-    app = tk.Toplevel()
-    app.attributes('-topmost', True)
-    app.after_idle(app.attributes, '-topmost', False)
