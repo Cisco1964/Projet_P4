@@ -41,8 +41,3 @@ class View_all_players(tk.Toplevel):
                                                          item['datenaissance'],
                                                          item['sexe'], item['classement']))
             i += 1
-
-
-def view_all(my_choice):
-
-    View_all_players(my_choice)
