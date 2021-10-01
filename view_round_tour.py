@@ -60,8 +60,3 @@ def research_round(id_tournament):
         if element['id'] == int(id_tournament):
             round.append(element)
     return round
-
-
-def view_r_tour(id_tournament):
-
-    View_round_tour(id_tournament)
