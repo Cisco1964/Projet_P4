@@ -6,7 +6,7 @@ from tournament import Tournament
 from players import Players
 from update_players import Update_players
 from score import update_score
-from view_all_players import view_all
+from view_all_players import View_all_players
 from view_tournament import View_tournament
 from view_choice_tour import View_choice_tour
 from view_choice_round import View_choice_round
@@ -106,12 +106,12 @@ class MyWindow(Tk):
     def do_players_name(self):
 
         ''' List of players by name '''
-        view_all("nom")
+        View_all_players("nom")
 
     def do_players_ranking(self):
 
         ''' List of players by ranking '''
-        view_all("classement")
+        View_all_players("classement")
 
     def do_view_tournament(self):
 
