@@ -35,8 +35,3 @@ class View_tournament(tk.Toplevel):
             tv.insert(parent='', index=i, iid=i, values=(item['name'], item['lieu'],
                       item['datedebut'], item['datefin']))
             i += 1
-
-
-if __name__ == "__main__":
-
-    ws = View_tournament()
