@@ -70,8 +70,3 @@ def search_tournament(id_tournament):
     for element in serialized_tournament:
         if element['id'] == int(id_tournament):
             return element['name']
-
-
-def view_tour(id_tournament, my_choice):
-
-    View_tour(id_tournament, my_choice)
