@@ -11,7 +11,7 @@ from view_tournament import View_tournament
 from view_choice_tour import View_choice_tour
 from view_choice_round import View_choice_round
 from view_round import view_round
-from view_clear_table import clear_table
+from view_clear_table import View_clear_table
 
 
 class MyWindow(Tk):
@@ -147,7 +147,7 @@ class MyWindow(Tk):
     def do_clear(self):
 
         ''' Clear table'''
-        clear_table()
+        View_clear_table()
 
     def quit(self):
 
