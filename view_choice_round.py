@@ -76,8 +76,3 @@ class View_choice_round(tk.Toplevel):
 
         '''Exit'''
         self.destroy()
-
-
-def view_gen_round():
-
-    View_choice_round()
