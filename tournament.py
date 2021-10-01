@@ -185,5 +185,5 @@ class Tournament(tk.Toplevel):
 
     def quit(self):
 
-        ''' Exit '''
+        '''Exit'''
         self.destroy()
