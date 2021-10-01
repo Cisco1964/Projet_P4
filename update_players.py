@@ -79,10 +79,3 @@ class Update_players(tk.Toplevel):
 
         ''' Exit'''
         self.destroy()
-
-
-if __name__ == "__main__":
-
-    app = Update_players()
-    app.title("Mise à jour classement joueurs")
-    app.mainloop()
