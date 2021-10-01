@@ -9,7 +9,7 @@ from score import update_score
 from view_all_players import view_all
 from view_tournament import View_tournament
 from view_choice_tour import view_choice
-from view_choice_round import view_gen_round
+from view_choice_round import View_choice_round
 from view_round import view_round
 from view_clear_table import clear_table
 
@@ -86,7 +86,7 @@ class MyWindow(Tk):
     def do_other_round(self):
 
         ''' Generate the next round '''
-        view_gen_round()
+        View_choice_round()
 
     def do_players(self):
 
