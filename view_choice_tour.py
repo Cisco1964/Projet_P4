@@ -4,9 +4,9 @@
 import tkinter as tk
 from tinydb import TinyDB
 from tkinter.constants import W
-from view_players_tour import view_tour
-from view_round_tour import view_r_tour
-from view_match_tour import view_m_tour
+from view_players_tour import View_tour
+from view_round_tour import View_round_tour
+from view_match_tour import View_match_tour
 
 db = TinyDB('db.json')
 tournament_table = db.table('tournament')
@@ -47,20 +47,15 @@ class View_choice_tour(tk.Toplevel):
             id_tournament = value
             # list of players by tournament
             if my_choice in ['nom', 'classement']:
-                view_tour(id_tournament, my_choice)
+                View_tour(id_tournament, my_choice)
             # list of rounds by tournament
             elif my_choice == 'round':
-                view_r_tour(id_tournament)
+                View_round_tour(id_tournament)
             else:
                 # list of matches by tournament
-                view_m_tour(id_tournament)
+                View_match_tour(id_tournament)
 
     def quit(self):
 
         '''Exit'''
         self.destroy()
-
-
-def view_choice(my_choice):
-
-    View_choice_tour(my_choice)
