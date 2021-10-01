@@ -8,7 +8,7 @@ from update_players import Update_players
 from score import update_score
 from view_all_players import view_all
 from view_tournament import View_tournament
-from view_choice_tour import view_choice
+from view_choice_tour import View_choice_tour
 from view_choice_round import View_choice_round
 from view_round import view_round
 from view_clear_table import clear_table
@@ -121,22 +121,22 @@ class MyWindow(Tk):
     def do_view_players_t_name(self):
 
         ''' List of tournament players by name '''
-        view_choice("nom")
+        View_choice_tour("nom")
 
     def do_view_players_t_ranking(self):
 
         ''' List of players in a tournament by ranking '''
-        view_choice("classement")
+        View_choice_tour("classement")
 
     def do_view_round_tour(self):
 
         ''' List of all rounds in a tournament'''
-        view_choice("round")
+        View_choice_tour("round")
 
     def do_view_match_tour(self):
 
         ''' List of all matches in a tournament '''
-        view_choice("match")
+        View_choice_tour("match")
 
     def do_save(self):
 
