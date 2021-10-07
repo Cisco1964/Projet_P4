@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+''' Liste de tous les joueurs qui sont dans la table players'''
+
+
 import tkinter as tk
 from tkinter import ttk
 from tinydb import TinyDB
 
-db = TinyDB('db.json')
+db = TinyDB('model/db.json')
 players_table = db.table('players')
 
 
