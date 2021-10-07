@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+''' Choix du tournoi pour la génération du round suivant'''
+
 import tkinter as tk
 from tinydb import TinyDB
 from tkinter.constants import W
 from tkinter.messagebox import showerror
-from create_round import round as add_round
+from controller.create_round import round as add_round
 
-db = TinyDB('db.json')
+db = TinyDB('model/db.json')
 tournament_table = db.table('tournament')
 
 
