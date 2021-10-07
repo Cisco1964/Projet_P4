@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
+''' Liste des joueurs d'un tournoi avec un paramarètre d'entré
+    - my_choice = nom  : tri des joueurs d'un tournoi par nom
+    - my_choice = classement : tri des joueurs d'un tournoi par classement
+'''
+
 import tkinter as tk
 from tkinter import ttk
 from tinydb import TinyDB, Query
 
-db = TinyDB('db.json')
+db = TinyDB('db/db.json')
 
 
 class View_tour(tk.Toplevel):

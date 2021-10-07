@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tinydb import TinyDB
 
-db = TinyDB('db.json')
+db = TinyDB('db/db.json')
 tournament_table = db.table('tournament')
 
 

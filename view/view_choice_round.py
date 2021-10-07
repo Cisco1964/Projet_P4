@@ -9,7 +9,7 @@ from tkinter.constants import W
 from tkinter.messagebox import showerror
 from controller.create_round import round as add_round
 
-db = TinyDB('model/db.json')
+db = TinyDB('db/db.json')
 tournament_table = db.table('tournament')
 
 

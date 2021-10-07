@@ -3,12 +3,11 @@
 
 ''' Liste de tous les joueurs qui sont dans la table players'''
 
-
 import tkinter as tk
 from tkinter import ttk
 from tinydb import TinyDB
 
-db = TinyDB('model/db.json')
+db = TinyDB('db/db.json')
 players_table = db.table('players')
 
 

@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+''' Choix du tournoi puis appel du module suivant le paramètre d'entré
+    - my_choice = nom ou classement : liste des joueurs par tournoi
+    - my_choice = round : liste des rounds par tournoi
+    - my_choice = match : liste tous les matchs par tournoi
+'''
+
 import tkinter as tk
 from tinydb import TinyDB
 from tkinter.constants import W
-from view_players_tour import View_tour
-from view_round_tour import View_round_tour
-from view_match_tour import View_match_tour
+from view.view_players_tour import View_tour
+from view.view_round_tour import View_round_tour
+from view.view_match_tour import View_match_tour
 
-db = TinyDB('db.json')
+db = TinyDB('db/db.json')
 tournament_table = db.table('tournament')
 
 

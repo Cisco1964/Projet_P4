@@ -6,7 +6,7 @@ from tkinter import ttk
 from tkinter.messagebox import showerror
 from tinydb import TinyDB
 
-db = TinyDB('db.json')
+db = TinyDB('db/db.json')
 
 
 class View_round(tk.Toplevel):

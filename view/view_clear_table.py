@@ -6,7 +6,7 @@ from tinydb import TinyDB
 from tkinter.constants import W
 from tkinter.messagebox import showinfo
 
-db = TinyDB('db.json')
+db = TinyDB('db/db.json')
 
 
 class View_clear_table(tk.Toplevel):
