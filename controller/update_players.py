@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+''' Mise à jour du classement des joueurs'''
+
 import tkinter as tk
 from tkinter.constants import DISABLED, END, NORMAL
-from tkinter.font import BOLD
 from tkinter.messagebox import showwarning
 from tinydb import TinyDB, Query
 
-db = TinyDB('db.json')
+db = TinyDB('model/db.json')
 players_table = db.table('players')
 
 
