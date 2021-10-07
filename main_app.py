@@ -1,17 +1,19 @@
 #!/usr/bin/python3
 
+from os import write
 from tkinter import Menu, Tk
+from tkinter.constants import END
 from tkinter.filedialog import asksaveasfile
-from tournament import Tournament
-from players import Players
-from update_players import Update_players
-from score import update_score
-from view_all_players import View_all_players
-from view_tournament import View_tournament
-from view_choice_tour import View_choice_tour
-from view_choice_round import View_choice_round
-from view_round import view_round
-from view_clear_table import View_clear_table
+from controller.tournament import Tournament
+from controller.players import Players
+from controller.update_players import Update_players
+from controller.score import update_score
+from view.view_all_players import View_all_players
+from view.view_tournament import View_tournament
+from view.view_choice_tour import View_choice_tour
+from view.view_choice_round import View_choice_round
+from view.view_round import view_round
+from view.view_clear_table import View_clear_table
 
 
 class MyWindow(Tk):
@@ -142,7 +144,12 @@ class MyWindow(Tk):
 
         ''' Save files'''
         files = [('All Files', '*.*'), ('Python Files', '*.py'), ('Text Document', '*.txt')]
-        file = asksaveasfile(filetypes=files, defaultextension=files)
+        file = asksaveasfile(mode = 'w', filetypes=files, defaultextension=files)
+
+        if file:
+            f = open(file, 'w')
+            contents = f.read()
+            print(contents)
 
     def do_clear(self):
 
