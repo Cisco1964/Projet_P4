@@ -7,7 +7,7 @@ from itertools import islice
 from tkinter.messagebox import showerror, showinfo
 import datetime
 
-db = TinyDB('db.json')
+db = TinyDB('db/db.json')
 
 
 def round(id_tournament, round):
@@ -19,8 +19,12 @@ def round(id_tournament, round):
     else:
         players_table = db.table('players')
         serialized_players = players_table.all()
+
+        # sort serialiazed players by ranking
+        players_sorted = sorted(serialized_players, key=lambda x: x['classement'])
+
         array_players = []
-        for item in serialized_players:
+        for item in players_sorted:
             players = [item['indice'], item['prenom'], item['nom'], item['classement']]
             array_players.append(players)
 
@@ -29,10 +33,13 @@ def round(id_tournament, round):
             # data extraction
             list_players.append(item)
 
+        print(list_players)
+
         # first round
         my_players = []
         if round == "round1":
-            i = len(serialized_players)//2
+            # sort the list by ranking
+            i = len(players_sorted)//2
             for first, second in zip(list_players, islice(list_players, i, None)):
                 match = (first[0], second[0])
                 my_players.append(match)
@@ -40,7 +47,7 @@ def round(id_tournament, round):
             add_round(id_tournament, round, my_players)
         else:
             # writing of the other rounds
-            other_round(id_tournament, round, serialized_players, my_players)
+            other_round(id_tournament, round, players_sorted, my_players)
             # writing of the round
             add_round(id_tournament, round, my_players)
             # tournament update for the round
@@ -49,7 +56,7 @@ def round(id_tournament, round):
             showinfo("Résultat", "le {} a été généré".format(round))
 
 
-def other_round(id_tournament, round, serialized_players, my_players):
+def other_round(id_tournament, round, players_sorted, my_players):
 
     # store matches already played
     result = research_score(id_tournament)
@@ -67,16 +74,17 @@ def other_round(id_tournament, round, serialized_players, my_players):
             tup[key] = tup[key]+value
         # using map
         resultat = list(map(tuple, tup.items()))
-    print(resultat)
     res = []
     # research of player ranking
     for item in resultat:
-        classement = search(item[0], serialized_players)
+        classement = search(item[0], players_sorted)
         add_classement = (classement,)
         tup = item + add_classement
         res.append(tup)
     # sort the list by point (reverse) and ranking
     a = sorted(res, key=lambda x: (-x[1], x[2]))
+    print(a)
+    print(list_match)
     # round génération
     array_ctl = []
     for item in a:
@@ -86,11 +94,13 @@ def other_round(id_tournament, round, serialized_players, my_players):
                     if item[0] != i[0]:
                         m = [item[0], i[0]]
                         elem = compare(m, list_match)
+                        print(elem)
                         if elem is not False:
                             my_players.append(m)
                             array_ctl.append(i[0])
                             array_ctl.append(item[0])
-                        break
+                            break
+    # print(array_ctl)
 
 
 def compare(m, list_match):
@@ -99,14 +109,15 @@ def compare(m, list_match):
     for i in list_match:
         m = list(m)
         n = list(reversed(m))
+        print(m, n)
         if m == i or n == i:
             return False
 
 
-def search(i, serialized_players):
+def search(i, players_sorted):
 
     """Reseach of player ranking """
-    for element in serialized_players:
+    for element in players_sorted:
         if element['indice'] == i:
             return int(element['classement'])
 
@@ -139,6 +150,4 @@ def update_tournament(id_tournament, round):
     ''''update value round'''
     tournament_table = db.table('tournament')
     tournament_db = Query()
-    # transform_round = round.split()
-    # print(type(transform_round))
     tournament_table.update(add('round', round.split()), tournament_db.id == int(id_tournament))

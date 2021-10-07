@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+''' - Saisie d'un tournoi et génération du premier tour par le module create_round'''
+
 import tkinter as tk
 from tkinter.constants import DISABLED, EW
 from tkinter.messagebox import showerror, showinfo
 from tinydb import TinyDB
 from tkcalendar import DateEntry
 from datetime import date
-from create_round import round
+from controller.create_round import round
 
-db = TinyDB('db.json')
+db = TinyDB('db/db.json')
 tournament_table = db.table('tournament')
 
 

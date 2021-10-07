@@ -8,7 +8,7 @@ from tkinter.constants import DISABLED, END, NORMAL
 from tkinter.messagebox import showwarning
 from tinydb import TinyDB, Query
 
-db = TinyDB('model/db.json')
+db = TinyDB('db/db.json')
 players_table = db.table('players')
 
 

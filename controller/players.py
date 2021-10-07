@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+''' Saisie des joueurs : on peut saisir jusqu'à 8 joueurs
+    l'indice du joueur est généré en automatique'''
+
 import tkinter as tk
 from tkinter.messagebox import showerror, showwarning
 from tinydb import TinyDB
 from tkcalendar import DateEntry
 import datetime
 
-db = TinyDB('db.json')
+db = TinyDB('db/db.json')
 players_table = db.table('players')
 
 
@@ -26,7 +29,7 @@ class Players(tk.Toplevel):
             or self.datenaissance.get() == ""
             or self.sex.get() == ""
             or self.classement.get() == 0
-            or self.classement.get() == ""):
+                or self.classement.get() == ""):
             showerror("Résultat", "Saisir tous les champs.\nVeuillez recommencer !")
         else:
             bool = self.numberonly()

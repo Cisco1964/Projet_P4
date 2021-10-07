@@ -13,7 +13,7 @@ from tkinter.messagebox import showerror
 from tinydb import TinyDB
 import datetime
 
-db = TinyDB('model/db.json')
+db = TinyDB('db/db.json')
 score_table = db.table('score')
 
 
