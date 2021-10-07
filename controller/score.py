@@ -1,21 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-''' - Read table ROUND_MATCH
-    - Entering scores
-    - Update the end date of the round of the table ROUND
-    - Writing score in the table SCORE
-    - Blanking of the table ROUND_MATCH'''
+''' - Lecture de la table ROUND_MATCH
+    - saisie les scores du tour
+    - Mise à jour de la date de fin du tour en question ROUND
+    - Ecriture dans la table SCORE
+    - Rmise à blanc de la table ROUND_MATCH'''
 
 import tkinter as tk
-from tkinter import font
 from tkinter.constants import DISABLED, END, NORMAL
-from tkinter.font import BOLD
 from tkinter.messagebox import showerror
 from tinydb import TinyDB
 import datetime
 
-db = TinyDB('db.json')
+db = TinyDB('model/db.json')
 score_table = db.table('score')
 
 
@@ -88,14 +86,14 @@ class Score(tk.Toplevel):
         for i in range(total_rows):
 
             try:
-                x = float(self.data[i][6].get())
+                float(self.data[i][6].get())
             except ValueError:
                 showerror("Résultat", "Score invalide.\nVeuillez recommencer !")
                 my_bool = False
                 break
 
             try:
-                x = float(self.data[i][7].get())
+                float(self.data[i][7].get())
             except ValueError:
                 showerror("Résultat", "Score invalide.\nVeuillez recommencer !")
                 my_bool = False
