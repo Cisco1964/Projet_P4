@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 
-from os import write
 from tkinter import Menu, Tk
 from tkinter.constants import END
-from tkinter.filedialog import asksaveasfile
 from controller.tournament import Tournament
 from controller.players import Players
 from controller.update_players import Update_players
@@ -31,10 +29,7 @@ class MyWindow(Tk):
         menu_bar = Menu(self)
 
         menu_file = Menu(menu_bar, tearoff=0)
-        menu_file.add_command(label="Sauvegarder", command=self.do_save)
-        menu_file.add_separator()
         menu_file.add_command(label="Remise à blanc des tables", command=self.do_clear)
-        menu_file.add_separator()
         menu_file.add_command(label="Quitter", command=self.quit)
         menu_bar.add_cascade(label="Fichier", menu=menu_file)
 
@@ -139,17 +134,6 @@ class MyWindow(Tk):
 
         ''' List of all matches in a tournament '''
         View_choice_tour("match")
-
-    def do_save(self):
-
-        ''' Save files'''
-        files = [('All Files', '*.*'), ('Python Files', '*.py'), ('Text Document', '*.txt')]
-        file = asksaveasfile(mode = 'w', filetypes=files, defaultextension=files)
-
-        if file:
-            f = open(file, 'w')
-            contents = f.read()
-            print(contents)
 
     def do_clear(self):
 
