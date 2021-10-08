@@ -9,7 +9,7 @@ from tkinter.messagebox import showerror, showinfo
 from tinydb import TinyDB
 from tkcalendar import DateEntry
 from datetime import date
-from controller.create_round import round
+from controller.round import round
 
 db = TinyDB('db/db.json')
 tournament_table = db.table('tournament')
