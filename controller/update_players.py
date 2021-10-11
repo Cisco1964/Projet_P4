@@ -43,7 +43,7 @@ class Update_players(tk.Toplevel):
                 self.e.configure(state=NORMAL)
                 self.e.insert(END, array_players[i][j])
                 if j < 3:
-                    self.e.configure(state=DISABLED)
+                    self.e.configure(state=DISABLED, disabledbackground='#6fedf8')
                 line.append(self.e)
             self.data.append(line)
         self.bouton = tk.Button(self, text="Quitter", command=self.quit)
