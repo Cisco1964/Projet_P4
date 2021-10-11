@@ -39,6 +39,6 @@ db.json
 * score  
 
 # Rapport flake8
-Le dépôt contient un rapport flake ne contenant aucune erreur. Il est possible d'en générer un nouveau en installant le module flake8 et en saisissant dans le terminal :
+Le dépôt contient un rapport flake ne contenant aucune erreur. Il est possible d'en générer un nouveau en installant le module flake8 et en saisissant dans le terminal (setup.cfg : fichier de configuration de flake8) :
 
 flake8
