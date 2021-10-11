@@ -1,6 +1,10 @@
 # Projet_P4
 
-# PRÉ-REQUIS 
+Cette application permet de créer un tournoi d'échecs. Elle permet de saisir un tournoi, de créer des joueurs, de générer les tours puis de saisir les scores.      
+Les données sont stockés dans une base de données TinyDB
+
+
+# Pré-requis 
 Création d'un environnement virtuel env  
 python -m venv env  
 activation de l'environnement virtuel : source env/bin/activate  
@@ -22,7 +26,6 @@ python3 main_app.py
 
 # Autres options du menu
 * Rapports
-* Sauvegarde des fichiers
 * Mise à blanc des tables
 
 # Output file 
