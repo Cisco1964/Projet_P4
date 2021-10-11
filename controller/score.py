@@ -68,10 +68,9 @@ class Score(tk.Toplevel):
                 self.e = tk.Entry(self, width=20)
                 self.e.grid(row=i, column=j)
                 self.e.configure(state=NORMAL)
-                # self.e.configure(font=("Helvetica", 10, BOLD))
                 self.e.insert(END, liste_match[i][j])
                 if j < 6:
-                    self.e.configure(state=DISABLED)
+                    self.e.configure(state=DISABLED, disabledbackground='#6fedf8')
                 line.append(self.e)
             self.data.append(line)
         self.bouton = tk.Button(self, text="Quitter", command=self.quit)
