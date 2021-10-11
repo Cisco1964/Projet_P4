@@ -1,6 +1,6 @@
 # Projet_P4
 
-Cette application permet de créer un tournoi d'échecs. Elle permet de saisir un tournoi, de créer des joueurs, de générer les tours puis de saisir les scores.      
+Cette application permet de créer un tournoi d'échecs.      
 Les données sont stockés dans une base de données TinyDB
 
 
