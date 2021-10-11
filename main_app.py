@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 from tkinter import Menu, Tk
-from tkinter.constants import END
 from controller.tournament import Tournament
 from controller.players import Players
 from controller.update_players import Update_players
