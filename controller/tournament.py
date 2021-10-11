@@ -26,11 +26,73 @@ class Tournament(tk.Toplevel):
         self.lift()
         self.creer_widgets()
 
+    def creer_widgets(self):
+
+        self.label1 = tk.Label(self, text="Nom").grid(row=0)
+        self.label2 = tk.Label(self, text="Lieu").grid(row=1)
+        self.label3 = tk.Label(self, text="Date début").grid(row=2)
+        self.label4 = tk.Label(self, text="Date fin").grid(row=3)
+        self.label5 = tk.Label(self, text="Nombre de tours").grid(row=4)
+        self.label6 = tk.Label(self, text="Tournées").grid(row=5)
+        self.label7 = tk.Label(self, text=" Sélectionner les joueurs").grid(row=6)
+        self.label8 = tk.Label(self, text=" Contrôle du temps").grid(row=9, pady=10)
+        self.label9 = tk.Label(self, text="Description").grid(row=11)
+
+        self.bouton = tk.Button(self, text="Quitter", command=self.quit)
+        self.bouton.grid(row=16, column=1, pady=30)
+        self.bouton = tk.Button(self, text="Valider", command=self.valid)
+        self.bouton.grid(row=16, column=2)
+        self.bouton = tk.Button(self, text="Reset", command=self.reset)
+        self.bouton.grid(row=16, column=3)
+
+        self.nom = tk.StringVar()
+        self.lieu = tk.StringVar()
+        self.tour = tk.IntVar(self, value=4)
+        self.tournees = tk.StringVar(self, value="round1")
+        self.time = tk.StringVar()
+        self.description = tk.StringVar()
+
+        self.champs1 = tk.Entry(self, textvariable=self.nom)
+        self.champs1.grid(row=0, column=1, columnspan=2, sticky=EW,
+                          padx=5, pady=5)
+        self.champs2 = tk.Entry(self, textvariable=self.lieu)
+        self.champs2.grid(row=1, column=1, columnspan=2, sticky=EW,
+                          padx=5, pady=5)
+
+        self.datedeb = DateEntry(self, width=12, background='darkblue',
+                                 foreground='white', borderwidth=2)
+        self.datedeb.grid(row=2, column=1, padx=5, pady=5)
+
+        self.datefin = DateEntry(self, width=12, background='darkblue',
+                                 foreground='white', borderwidth=2)
+        self.datefin.grid(row=3, column=1, padx=5, pady=5)
+
+        self.champs5 = tk.Entry(self, textvariable=self.tour)
+        self.champs5.grid(row=4, column=1, padx=5, pady=5)
+        self.champs6 = tk.Entry(self, textvariable=self.tournees, state=DISABLED)
+        self.champs6.grid(row=5, column=1, padx=5, pady=5)
+
+        # player clues
+        self.alim_players()
+
+        self.time1 = tk.Radiobutton(self, text='bullet', variable=self.time,
+                                    value="bullet", command=self.ctltime)
+        self.time1.grid(row=9, column=1)
+        self.time2 = tk.Radiobutton(self, text='blitz', variable=self.time,
+                                    value="blitz", command=self.ctltime)
+        self.time2.grid(row=9, column=2)
+        self.time3 = tk.Radiobutton(self, text='coup rapide  ', variable=self.time,
+                                    value="coup rapide", command=self.ctltime)
+        self.time3.grid(row=9, column=3)
+        self.description = tk.Text(self, width=20, height=10)
+        self.description.grid(row=11, column=1, columnspan=2, sticky=EW, padx=5, pady=5)
+
     def ctltime(self):
         pass
 
     def check_players(self):
 
+        ''' players verification'''
         self.players = []
         for item, status in self.var.items():
             if status.get():
@@ -123,67 +185,6 @@ class Tournament(tk.Toplevel):
             table_sorted = sorted(tournament_table, key=lambda x: x['id'], reverse=True)
             num = table_sorted[0]['id'] + 1
         return num
-
-    def creer_widgets(self):
-
-        self.label1 = tk.Label(self, text="Nom").grid(row=0)
-        self.label2 = tk.Label(self, text="Lieu").grid(row=1)
-        self.label3 = tk.Label(self, text="Date début").grid(row=2)
-        self.label4 = tk.Label(self, text="Date fin").grid(row=3)
-        self.label5 = tk.Label(self, text="Nombre de tours").grid(row=4)
-        self.label6 = tk.Label(self, text="Tournées").grid(row=5)
-        self.label7 = tk.Label(self, text=" Sélectionner les joueurs").grid(row=6)
-        self.label8 = tk.Label(self, text=" Contrôle du temps").grid(row=9, pady=10)
-        self.label9 = tk.Label(self, text="Description").grid(row=11)
-
-        self.bouton = tk.Button(self, text="Quitter", command=self.quit)
-        self.bouton.grid(row=16, column=1, pady=30)
-        self.bouton = tk.Button(self, text="Valider", command=self.valid)
-        self.bouton.grid(row=16, column=2)
-        self.bouton = tk.Button(self, text="Reset", command=self.reset)
-        self.bouton.grid(row=16, column=3)
-
-        self.nom = tk.StringVar()
-        self.lieu = tk.StringVar()
-        self.tour = tk.IntVar(self, value=4)
-        self.tournees = tk.StringVar(self, value="round1")
-        self.time = tk.StringVar()
-        self.description = tk.StringVar()
-
-        self.champs1 = tk.Entry(self, textvariable=self.nom)
-        self.champs1.grid(row=0, column=1, columnspan=2, sticky=EW,
-                          padx=5, pady=5)
-        self.champs2 = tk.Entry(self, textvariable=self.lieu)
-        self.champs2.grid(row=1, column=1, columnspan=2, sticky=EW,
-                          padx=5, pady=5)
-
-        self.datedeb = DateEntry(self, width=12, background='darkblue',
-                                 foreground='white', borderwidth=2)
-        self.datedeb.grid(row=2, column=1, padx=5, pady=5)
-
-        self.datefin = DateEntry(self, width=12, background='darkblue',
-                                 foreground='white', borderwidth=2)
-        self.datefin.grid(row=3, column=1, padx=5, pady=5)
-
-        self.champs5 = tk.Entry(self, textvariable=self.tour)
-        self.champs5.grid(row=4, column=1, padx=5, pady=5)
-        self.champs6 = tk.Entry(self, textvariable=self.tournees, state=DISABLED)
-        self.champs6.grid(row=5, column=1, padx=5, pady=5)
-
-        # player clues
-        self.alim_players()
-
-        self.time1 = tk.Radiobutton(self, text='bullet', variable=self.time,
-                                    value="bullet", command=self.ctltime)
-        self.time1.grid(row=9, column=1)
-        self.time2 = tk.Radiobutton(self, text='blitz', variable=self.time,
-                                    value="blitz", command=self.ctltime)
-        self.time2.grid(row=9, column=2)
-        self.time3 = tk.Radiobutton(self, text='coup rapide  ', variable=self.time,
-                                    value="coup rapide", command=self.ctltime)
-        self.time3.grid(row=9, column=3)
-        self.description = tk.Text(self, width=20, height=10)
-        self.description.grid(row=11, column=1, columnspan=2, sticky=EW, padx=5, pady=5)
 
     def quit(self):
 
