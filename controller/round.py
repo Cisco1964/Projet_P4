@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from tinydb import TinyDB, Query
-from tinydb.operations import add
+from tinydb import TinyDB
 from itertools import islice
 from tkinter.messagebox import showerror, showinfo
-from controller.create_round import add_round
+from model.create_round import add_round
 
 db = TinyDB('db/db.json')
+
 
 def round(id_tournament, round):
 
