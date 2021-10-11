@@ -7,7 +7,7 @@ import tkinter as tk
 from tinydb import TinyDB
 from tkinter.constants import W
 from tkinter.messagebox import showerror
-from controller.create_round import round as add_round
+from controller.round import round as call_round
 
 db = TinyDB('db/db.json')
 tournament_table = db.table('tournament')
@@ -60,7 +60,7 @@ class View_choice_round(tk.Toplevel):
                     # recovery of the next round
                     next_round = res[0]
                     # generation of the next round
-                    add_round(value, next_round)
+                    call_round(value, next_round)
 
     def research_round(self, id):
 
