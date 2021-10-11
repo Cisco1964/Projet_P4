@@ -37,3 +37,8 @@ db.json
 * round_match
 * round
 * score  
+
+# Rapport flake8
+Le dépôt contient un rapport flake ne contenant aucune erreur. Il est possible d'en générer un nouveau en installant le module flake8 et en saisissant dans le terminal :
+
+flake8
