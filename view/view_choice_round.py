@@ -22,7 +22,7 @@ class View_choice_round(tk.Toplevel):
         self.title("Choisir un tournoi")
         self.construct()
 
-    def construct(self, my_choice):
+    def construct(self):
 
         serialized_tournament = tournament_table.all()
         i = 0
