@@ -100,15 +100,20 @@ class Tournament(tk.Toplevel):
 
     def valid(self):
 
+        resdate = self.datedeb.get() <= self.datefin.get()
+        print(resdate)
         ''' control of the entry and validation if all ok '''
         if (self.nom.get() == ""
            or self.lieu.get() == ""
            or self.datedeb.get() == ""
            or self.datefin.get() == ""
            or self.tour.get() == 0
+           or self.players == []
            or self.tournees.get() == ""):
             # error message
             showerror("Résultat", "Saisir tous les champs.\nVeuillez recommencer !")
+        elif not resdate:
+            showerror("Résultat", "Date de fin > date début")
         else:
             # tournament creation
             name_tournament = self.nom.get()
@@ -116,8 +121,7 @@ class Tournament(tk.Toplevel):
             num_tournament = self.last_id()
             self.insert_tournament(num_tournament)
             # call of the script to generate the first round
-            name_round = "round1"
-            round(num_tournament, name_round)
+            round(num_tournament, "round1")
             # information message
             showinfo("Résultat", "Le tournoi de {} a été créé et\n"
                      "le premier tour a été généré !".format(name_tournament))
