@@ -1,16 +1,19 @@
 #!/usr/bin/python3
 
 from tkinter import Menu, Tk
+from tinydb import TinyDB
+from tkinter.messagebox import showerror
 from controller.tournament import Tournament
 from controller.players import Players
 from controller.update_players import Update_players
-from controller.score import update_score
 from view.view_all_players import View_all_players
 from view.view_tournament import View_tournament
 from view.view_choice_tour import View_choice_tour
 from view.view_choice_round import View_choice_round
-from view.view_round import view_round
 from view.view_clear_table import View_clear_table
+
+
+db = TinyDB('db/db.json')
 
 
 class MyWindow(Tk):
@@ -77,7 +80,7 @@ class MyWindow(Tk):
     def do_round(self):
 
         ''' View a round '''
-        view_round()
+        View_choice_tour("view_round")
 
     def do_other_round(self):
 
@@ -96,8 +99,13 @@ class MyWindow(Tk):
 
     def do_score(self):
 
-        ''' Entering scores '''
-        update_score()
+        round_table = db.table('round_match')
+        serialized_round = round_table.all()
+        if serialized_round == []:
+            showerror("Résultat", "Aucun score à saisir")
+        else:
+            ''' Entering scores '''
+            View_choice_tour("score")
 
     def do_players_name(self):
 
