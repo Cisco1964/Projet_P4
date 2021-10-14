@@ -10,9 +10,11 @@
 import tkinter as tk
 from tinydb import TinyDB
 from tkinter.constants import W
+from controller.score import update_score
 from view.view_players_tour import View_tour
 from view.view_round_tour import View_round_tour
 from view.view_match_tour import View_match_tour
+from view.view_round import view_round
 
 db = TinyDB('db/db.json')
 tournament_table = db.table('tournament')
@@ -57,9 +59,15 @@ class View_choice_tour(tk.Toplevel):
             # list of rounds by tournament
             elif my_choice == 'round':
                 View_round_tour(id_tournament)
-            else:
+            elif my_choice == 'match':
                 # list of matches by tournament
                 View_match_tour(id_tournament)
+            elif my_choice == 'view_round':
+                # view round in treatement
+                view_round(id_tournament)
+            else:
+                # saisie des scores
+                update_score(id_tournament)
 
     def quit(self):
 
