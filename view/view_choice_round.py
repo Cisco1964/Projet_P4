@@ -4,7 +4,7 @@
 ''' Choix du tournoi pour la génération du round suivant'''
 
 import tkinter as tk
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 from tkinter.constants import W
 from tkinter.messagebox import showerror
 from controller.round import round as call_round
@@ -22,7 +22,7 @@ class View_choice_round(tk.Toplevel):
         self.title("Choisir un tournoi")
         self.construct()
 
-    def construct(self):
+    def construct(self, my_choice):
 
         serialized_tournament = tournament_table.all()
         i = 0
@@ -46,21 +46,31 @@ class View_choice_round(tk.Toplevel):
         ''' Validate selection'''
         if value != "":
             id = int(value)
-            # search for rounds already generated
-            result = self.research_round(id)
-            if result == []:
-                showerror("Résultat", "Aucun tour n'a été généré")
+            matchs = self.research_round_match(id)
+            print(matchs)
+            if matchs != []:
+                showerror("Résultat", "Il y a un tour en attente de saisie pour ce tournoi")
             else:
+                # search for rounds already generated
+                result = self.research_round(id)
                 round = ["round1", "round2", "round3", "round4"]
                 # search for the non-generated round
                 res = [x for x in round if x not in result]
                 if res == []:
-                    showerror("Résultat", "Tous les tours ont été générés")
+                    showerror("Résultat", "Tous les tours ont déjà été générés pour ce tournoi ")
                 else:
                     # recovery of the next round
                     next_round = res[0]
                     # generation of the next round
                     call_round(value, next_round)
+
+    def research_round_match(self, id):
+
+        '''recherche s'il y a un tour en cours'''
+        tournament_round = db.table('round_match')
+        Round_table = Query()
+        result = tournament_round.search(Round_table.id == int(id))
+        return result
 
     def research_round(self, id):
 
