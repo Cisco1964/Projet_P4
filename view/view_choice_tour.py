@@ -5,6 +5,7 @@
     - my_choice = nom ou classement : liste des joueurs par tournoi
     - my_choice = round : liste des rounds par tournoi
     - my_choice = match : liste tous les matchs par tournoi
+    - my_choice = score : saisie des sores
 '''
 
 import tkinter as tk
