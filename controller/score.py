@@ -10,8 +10,9 @@
 import tkinter as tk
 from tkinter.constants import DISABLED, END, NORMAL
 from tkinter.messagebox import showerror
-from tinydb import TinyDB
+from tinydb import TinyDB, Query, where
 import datetime
+
 
 db = TinyDB('db/db.json')
 score_table = db.table('score')
@@ -19,12 +20,11 @@ score_table = db.table('score')
 
 class Score(tk.Toplevel):
 
-    def __init__(self):
+    def __init__(self, result):
 
         tk.Toplevel.__init__(self)
 
-        tournament_round = db.table('round_match')
-        serialized_round_match = tournament_round.all()
+        serialized_round_match = result
 
         tournament_players = db.table('players')
         serialized_players = tournament_players.all()
@@ -115,7 +115,9 @@ class Score(tk.Toplevel):
                 players_round.append(players)
                 line_score = []
             self.update_round(players_round)
-            db.drop_table('round_match')
+            # remove the record
+            tournament_round = db.table('round_match')
+            tournament_round.remove(where('id') == int(id_tournament))
             self.quit()
 
     def insert_score(self, line_score):
@@ -167,11 +169,13 @@ class Score(tk.Toplevel):
         self.destroy()
 
 
-def update_score():
+def update_score(id_tournament):
 
     tournament_round = db.table('round_match')
-    serialized_round_match = tournament_round.all()
-    if len(serialized_round_match) == 0:
-        showerror("Résultat", "Aucun tour en attente de saisie")
+    Round_table = Query()
+    result = tournament_round.search(Round_table.id == int(id_tournament))
+    print(id_tournament, result)
+    if result == []:
+        showerror("Résultat", "Aucun tour en attente de saisie pour ce tournoi")
     else:
-        Score()
+        Score(result)
