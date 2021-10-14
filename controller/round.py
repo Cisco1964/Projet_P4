@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 from itertools import islice
-from tkinter.messagebox import showerror, showinfo
+from tkinter.messagebox import showinfo, showerror
 from model.create_round import add_round
 
 db = TinyDB('db/db.json')
@@ -12,13 +12,14 @@ db = TinyDB('db/db.json')
 def round(id_tournament, round):
 
     round_table = db.table('round_match')
-    serialized_round = round_table.all()
-    if serialized_round != []:
-        showerror("Résultat", "Vous devez saisir le score du tour en attente !")
+    Round_table = Query()
+    result = round_table.search(Round_table.id == int(id_tournament))
+    print(id_tournament, round)
+    if result != []:
+        showerror("Résultat", "il y a un tour en attente de saisie pour ce tournoi")
     else:
         players_table = db.table('players')
         serialized_players = players_table.all()
-
         # sort serialiazed players by ranking
         players_sorted = sorted(serialized_players, key=lambda x: x['classement'])
 
@@ -36,7 +37,7 @@ def round(id_tournament, round):
 
         # first round
         my_players = []
-        print(round)
+        # print(id_tournament, round)
         if round == "round1":
             # sort the list by ranking
             i = len(players_sorted)//2
@@ -107,7 +108,7 @@ def compare(m, list_match):
     for i in list_match:
         m = list(m)
         n = list(reversed(m))
-        print(m, n)
+        # print(m, n)
         if m == i or n == i:
             return False
 
