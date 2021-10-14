@@ -20,6 +20,6 @@ def add_round(id_tournament, round, my_players):
 
     ''''update value round'''
     tournament_table = db.table('tournament')
-    tournament_db = Query()
+    Tournament_db = Query()
     if round != "round1":
-        tournament_table.update(add('round', round.split()), tournament_db.id == int(id_tournament))
+        tournament_table.update(add('round', round.split()), Tournament_db.id == int(id_tournament))
