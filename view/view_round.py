@@ -4,7 +4,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showerror
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 
 db = TinyDB('db/db.json')
 
@@ -68,17 +68,17 @@ def search_tournament(id_tournament):
     tournament_table = db.table('tournament')
     serialized_tournament = tournament_table.all()
     for element in serialized_tournament:
-        if element['id'] == id_tournament:
+        if element['id'] == int(id_tournament):
             return element['name']
 
 
-def view_round():
+def view_round(id_tournament):
 
     round_table = db.table('round_match')
-    serialized_round = round_table.all()
+    Round_table = Query()
+    serialized_round = round_table.search(Round_table.id == int(id_tournament))
     if serialized_round == []:
-        showerror("Résultat", "Aucun tour en attente !")
+        showerror("Résultat", "Aucun tour en attente pour ce tournoi")
     else:
-        id_tournament = serialized_round[0]['id']
         round = serialized_round[0]['round']
         View_round(id_tournament, round, serialized_round)
