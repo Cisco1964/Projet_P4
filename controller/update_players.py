@@ -74,7 +74,7 @@ class Update_players(tk.Toplevel):
 
         ''' Update player rankings'''
         players_table = db.table('players')
-        players_table.update({'classement': line_player[3]}, Query().indice == int(line_player[0]))
+        players_table.update({'classement': int(line_player[3])}, Query().indice == int(line_player[0]))
 
     def quit(self):
 
