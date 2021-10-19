@@ -3,8 +3,8 @@
 from tkinter import Menu, Tk
 from tinydb import TinyDB
 from tkinter.messagebox import showerror
-from controller.tournament import Tournament
-from controller.players import Players
+from controller.control_tournament import Control_Tournament
+from controller.control_players import Control_Players
 from controller.update_players import Update_players
 from view.view_all_players import View_all_players
 from view.view_tournament import View_tournament
@@ -75,7 +75,7 @@ class MyWindow(Tk):
     def do_tournament(self):
 
         ''' Tournament'''
-        Tournament()
+        Control_Tournament()
 
     def do_round(self):
 
@@ -90,7 +90,7 @@ class MyWindow(Tk):
     def do_players(self):
 
         ''' Entering players '''
-        Players()
+        Control_Players()
 
     def do_update_players(self):
 
