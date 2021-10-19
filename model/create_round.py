@@ -23,3 +23,4 @@ def add_round(id_tournament, round, my_players):
     Tournament_db = Query()
     if round != "round1":
         tournament_table.update(add('round', round.split()), Tournament_db.id == int(id_tournament))
+    return
