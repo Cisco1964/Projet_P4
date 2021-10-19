@@ -109,11 +109,11 @@ class Tournament(tk.Toplevel):
            or self.datefin.get() == ""
            or self.tour.get() == 0
            or self.players == []
-           or self.tournees.get() == ""):
+           or self.time.get() == ""):
             # error message
             showerror("Résultat", "Saisir tous les champs.\nVeuillez recommencer !")
         elif not resdate:
-            showerror("Résultat", "Date de fin > date début")
+            showerror("Résultat", "Date de fin < date début")
         else:
             # tournament creation
             name_tournament = self.nom.get()
