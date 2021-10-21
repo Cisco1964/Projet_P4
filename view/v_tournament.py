@@ -71,9 +71,6 @@ class V_Tournament():
         self.description = tk.Text(self.master, width=20, height=10)
         self.description.grid(row=11, column=1, columnspan=2, sticky=EW, padx=5, pady=5)
 
-    def __repr__(self):
-        return self.nom, self.lieu, self.players
-
     def alim_players(self):
 
         self.checkbuttons = list()
@@ -106,4 +103,4 @@ class V_Tournament():
         for item, status in self.var.items():
             if status.get():
                 self.players.append(item)
-        return self.players
+        return self 
