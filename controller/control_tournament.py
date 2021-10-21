@@ -12,7 +12,7 @@ from model.create_tournament import Create_Tournament
 from view.v_tournament import V_Tournament
 
 
-class Control_Tournament():
+class Control_Tournament:
 
     def __init__(self):
 
@@ -20,7 +20,7 @@ class Control_Tournament():
         global tournament_table
         tournament_table = db.table('tournament')
 
-        self.root = tk.Tk()
+        self.root = tk.Toplevel()
         self.root.title("Tournoi")
         self.create_players = Create_Tournament()
         self.view = V_Tournament(self.root)
@@ -32,12 +32,8 @@ class Control_Tournament():
     def valid(self):
 
         ''' Validation'''
-        print("time", self.view.time.get())
         resdate = self.view.datedeb.get() <= self.view.datefin.get()
-        print(resdate)
         ''' control of the entry and validation if all ok '''
-        print(self.view.players)
-        print(type(self.view))
         if (self.view.nom.get() == ""
            or self.view.lieu.get() == ""
            or self.view.datedeb.get() == ""
