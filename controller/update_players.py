@@ -6,50 +6,23 @@
 import tkinter as tk
 from tkinter.constants import DISABLED, END, NORMAL
 from tkinter.messagebox import showwarning
-from tinydb import TinyDB, Query
-
-db = TinyDB('db/db.json')
-players_table = db.table('players')
+from model.update_players import Update_Players
+from view.v_maj_players import V_Maj_Players
 
 
-class Update_players(tk.Toplevel):
+class Maj_Players(tk.Toplevel):
 
     def __init__(self):
 
-        tk.Toplevel.__init__(self)
-        self.title("Mise à jour classement joueurs")
-        global total_rows
-        global total_columns
-        total_columns = 4
-        players_table = db.table('players')
-        serialized_players = players_table.all()
+        self.root = tk.Toplevel()
+        self.root.title("Mise à jour classement joueurs")
+        self.model = Update_Players()
+        self.view = V_Maj_Players(self.root)
+        self.view.quit_btn.config(command=self.quit)
+        self.view.valid_btn.config(command=self.valid)
 
-        if players_table == "":
-            showwarning("Résultat", "veuillez saisir des joueurs !")
-
-        total_rows = len(serialized_players)
-        # constitution of the table
-        array_players = []
-        for item in serialized_players:
-            players = (item['indice'], item['prenom'], item['nom'], item['classement'])
-            array_players.append(players)
-        # Formatting the Table View
-        self.data = list()
-        for i in range(total_rows):
-            line = list()
-            for j in range(total_columns):
-                self.e = tk.Entry(self, width=10)
-                self.e.grid(row=i, column=j)
-                self.e.configure(state=NORMAL)
-                self.e.insert(END, array_players[i][j])
-                if j < 3:
-                    self.e.configure(state=DISABLED, disabledbackground='#6fedf8')
-                line.append(self.e)
-            self.data.append(line)
-        self.bouton = tk.Button(self, text="Quitter", command=self.quit)
-        self.bouton.grid(row=10, column=1, padx=10, pady=10)
-        self.bouton = tk.Button(self, text="Valider", command=self.valid)
-        self.bouton.grid(row=10, column=2)
+    def main(self):
+        self.view.main()
 
     def valid(self):
 
@@ -57,26 +30,25 @@ class Update_players(tk.Toplevel):
         si my_bool == True , on valide la mise à jour
         '''
         my_bool = True
-        for i in range(total_rows):
-            if float(self.data[i][3].get()) == 0:
+        for i in range(self.view.total_rows):
+            if float(self.view.data[i][3].get()) == 0:
                 showwarning("Résultat", "Classement invalide !")
                 my_bool = False
                 break
         if my_bool:
             line_player = []
-            for i in range(total_rows):
-                for j in range(total_columns):
-                    line_player.append(self.data[i][j].get())
-                self.update(line_player)
+            for i in range(self.view.total_rows):
+                for j in range(self.view.total_columns):
+                    line_player.append(self.view.data[i][j].get())
+                self.model.update(line_player)
                 line_player = []
-
-    def update(self, line_player):
-
-        ''' Update player rankings'''
-        players_table = db.table('players')
-        players_table.update({'classement': int(line_player[3])}, Query().indice == int(line_player[0]))
 
     def quit(self):
 
         ''' Exit'''
-        self.destroy()
+        self.root.destroy()
+
+
+if __name__ == '__main__':
+    c = Maj_Players()
+    c.main()
