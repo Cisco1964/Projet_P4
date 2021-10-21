@@ -5,7 +5,7 @@ from tinydb import TinyDB
 from tkinter.messagebox import showerror
 from controller.control_tournament import Control_Tournament
 from controller.control_players import Control_Players
-from controller.update_players import Update_players
+from controller.maj_players import Maj_Players
 from view.view_all_players import View_all_players
 from view.view_tournament import View_tournament
 from view.view_choice_tour import View_choice_tour
@@ -94,8 +94,13 @@ class MyWindow(Tk):
 
     def do_update_players(self):
 
-        ''' Update player rankings '''
-        Update_players()
+        players_table = db.table('players')
+        serialized_players = players_table.all()
+        if serialized_players == []:
+            showerror("Résultat", "La table players est vide")
+        else:
+            ''' Update player rankings '''
+            Maj_Players()
 
     def do_score(self):
 
