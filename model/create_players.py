@@ -10,7 +10,7 @@ class Create_Players():
 
         global players_table
         db = TinyDB('db/db.json')
-        players_table = db.table('players')
+        self.players_table = db.table('players')
 
     def insert_user(self, compteur, arg1, arg2, arg3, arg4, arg5):
         serialized_players = {
@@ -21,6 +21,6 @@ class Create_Players():
             'sexe': arg4,
             'classement': int(arg5),
         }
-        players_table.insert(serialized_players)
+        self.players_table.insert(serialized_players)
 
         return
