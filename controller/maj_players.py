@@ -21,9 +21,6 @@ class Maj_Players(tk.Toplevel):
         self.view.quit_btn.config(command=self.quit)
         self.view.valid_btn.config(command=self.valid)
 
-    def main(self):
-        self.view.main()
-
     def valid(self):
 
         ''' controle de la saisie
