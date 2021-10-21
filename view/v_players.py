@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
+from tkinter import ttk
 from tkcalendar import DateEntry
 
 
@@ -10,6 +11,11 @@ class V_Players():
     def __init__(self, master):
 
         self.master = master
+        self.nom = tk.StringVar()
+        self.prenom = tk.StringVar()
+        self.sex = tk.StringVar()
+        self.classement = tk.StringVar()
+
         self.label1 = tk.Label(self.master, text="Nom de famille").grid(row=0)
         self.label2 = tk.Label(self.master, text="Prénom").grid(row=1)
         self.label3 = tk.Label(self.master, text="Date de naissance").grid(row=2)
@@ -22,11 +28,6 @@ class V_Players():
         self.valid_btn.grid(row=10, column=1)
         self.reset_btn = tk.Button(self.master, text="Reset")
         self.reset_btn.grid(row=10, column=2)
-
-        self.nom = tk.StringVar()
-        self.prenom = tk.StringVar()
-        self.sex = tk.StringVar()
-        self.classement = tk.StringVar()
 
         self.champ1 = tk.Entry(self.master, textvariable=self.nom)
         self.champ1.grid(row=0, column=1, padx=5, pady=5)
@@ -44,7 +45,8 @@ class V_Players():
 
         self.champ4 = tk.Entry(self.master, textvariable=self.classement)
         self.champ4.grid(row=5, column=1, padx=5, pady=5)
+        
 
-    def __repr__(self):
-
-        return self
+    def main(self):
+        pass
+        #self.mainloop()
