@@ -6,14 +6,9 @@
 from tinydb import TinyDB, Query
 
 db = TinyDB('db/db.json')
-players_table = db.table('players')
 
 
 class Update_Players():
-
-    def __init__(self):
-
-        db = TinyDB('db/db.json')
 
     def update(self, line_player):
 
