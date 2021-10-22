@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+'''Liste de tous les tournois'''
+
 import tkinter as tk
 from tkinter import ttk
 from tinydb import TinyDB
