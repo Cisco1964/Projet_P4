@@ -22,7 +22,7 @@ class Control_Tournament:
 
         self.root = tk.Toplevel()
         self.root.title("Tournoi")
-        self.create_players = Create_Tournament()
+        self.model = Create_Tournament()
         self.view = V_Tournament(self.root)
         self.view.quit_btn.config(command=self.quit)
         self.view.valid_btn.config(command=self.valid)
@@ -32,6 +32,7 @@ class Control_Tournament:
     def valid(self):
 
         ''' Validation'''
+        print("v_tournament", self.view.players)
         resdate = self.view.datedeb.get() <= self.view.datefin.get()
         ''' control of the entry and validation if all ok '''
         if (self.view.nom.get() == ""
@@ -52,14 +53,14 @@ class Control_Tournament:
             name_tournament = self.view.nom.get()
             # search for the last tournament created
             num_tournament = self.last_id()
-            self.create_players.insert_tournament(num_tournament, self.view.nom.get(),
-                                                  self.view.lieu.get(),
-                                                  self.view.datedeb.get(),
-                                                  self.view.datefin.get(),
-                                                  self.view.tour.get(),
-                                                  self.view.players,
-                                                  self.view.time.get(),
-                                                  self.view.description.get("1.0", "end"))
+            self.model.insert_tournament(num_tournament, self.view.nom.get(),
+                                         self.view.lieu.get(),
+                                         self.view.datedeb.get(),
+                                         self.view.datefin.get(),
+                                         self.view.tour.get(),
+                                         self.view.players,
+                                         self.view.time.get(),
+                                         self.view.description.get("1.0", "end"))
             # call of the script to generate the first round
             round(num_tournament, "round1")
             # information message
@@ -86,6 +87,7 @@ class Control_Tournament:
         self.view.datefin.set_date(date.today().strftime("%d/%m/%Y"))
         self.view.tour.set("4")
         self.view.tournees.set("round1")
+        self.view.players = []
         self.view.time.set("")
         self.view.checkbuttons.clear()
         self.view.description.delete("1.0", "end")
