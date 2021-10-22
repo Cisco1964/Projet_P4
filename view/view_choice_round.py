@@ -4,7 +4,7 @@
 ''' Choix du tournoi pour la génération du round suivant'''
 
 import tkinter as tk
-from tinydb import TinyDB, Query
+from tinydb import TinyDB, where
 from tkinter.constants import W
 from tkinter.messagebox import showerror
 from controller.round import round as call_round
@@ -47,7 +47,7 @@ class View_choice_round(tk.Toplevel):
         if value != "":
             id = int(value)
             matchs = self.research_round_match(id)
-            print(matchs)
+            print("coucou", matchs)
             if matchs != []:
                 showerror("Résultat", "Il y a un tour en attente de saisie pour ce tournoi")
             else:
@@ -68,8 +68,13 @@ class View_choice_round(tk.Toplevel):
 
         '''recherche s'il y a un tour en cours'''
         tournament_round = db.table('round_match')
-        Round_table = Query()
-        result = tournament_round.search(Round_table.id == int(id))
+        serialized_round_match = tournament_round.all()
+        result = []
+        for element in serialized_round_match:
+            if element['id'] == id:
+                result = element
+                break
+        print(result)
         return result
 
     def research_round(self, id):
