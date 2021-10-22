@@ -9,7 +9,7 @@
 '''
 
 import tkinter as tk
-from tinydb import TinyDB, Query
+from tinydb import TinyDB, where
 from tkinter.constants import W
 from tkinter.messagebox import showerror
 from controller.control_score import Control_Score
@@ -77,17 +77,15 @@ class View_choice_tour(tk.Toplevel):
                 else:
                     Control_Score(round_match)
 
-
     def search_round_match(self, id_tournament):
 
         '''research the record'''
-        db.clear_cache()
+        db.table('round_match').clear_cache()
         tournament_round = db.table('round_match')
-        Round_table = Query()
-        result = tournament_round.search(Round_table.id == int(id_tournament))
+        result = tournament_round.search(where('id') == int(id_tournament))
         print("result", result)
         return result
-        
+
     def quit(self):
 
         '''Exit'''
