@@ -31,7 +31,7 @@ class Control_Players:
     def valid(self):
 
         ''' Validation saisie'''
-        print(self.view.nom.get())
+        # print(self.view.nom.get())
         if (self.view.nom.get() == ""
             or self.view.prenom.get() == ""
             or self.view.datenaissance.get() == ""
