@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+''' Visualiser les rounds en cours'''
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showerror
