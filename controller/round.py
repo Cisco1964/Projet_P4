@@ -86,7 +86,7 @@ def other_round(id_tournament, players_sorted, my_players):
                     if item[0] != i[0]:
                         m = [item[0], i[0]]
                         elem = compare(m, list_match)
-                        print(elem)
+                        # print(elem)
                         if elem is not False:
                             my_players.append(m)
                             array_ctl.append(i[0])
