@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from tinydb import TinyDB, where
+from tinydb import TinyDB
 from itertools import islice
 from tkinter.messagebox import showinfo, showerror
 from model.create_round import add_round
@@ -29,8 +29,6 @@ def round(id_tournament, round):
         for item in array_players:
             # data extraction
             list_players.append(item)
-
-        # print(list_players)
 
         # first round
         my_players = []
@@ -79,8 +77,6 @@ def other_round(id_tournament, round, players_sorted, my_players):
         res.append(tup)
     # sort the list by point (reverse) and ranking
     a = sorted(res, key=lambda x: (-x[1], x[2]))
-    # print(a)
-    # print(list_match)
     # round génération
     array_ctl = []
     for item in a:
