@@ -57,6 +57,7 @@ class V_Tournament():
         self.champs6.grid(row=5, column=1, padx=5, pady=5)
 
         # player clues
+        self.players = []
         self.alim_players()
 
         self.time1 = tk.Radiobutton(self.master, text='bullet', variable=self.time,
@@ -94,7 +95,7 @@ class V_Tournament():
             if c > 3:
                 r += 1
                 c = 1
-        return self
+        return self.players
 
     def check_players(self):
 
@@ -103,4 +104,4 @@ class V_Tournament():
         for item, status in self.var.items():
             if status.get():
                 self.players.append(item)
-        return self
+        return self.players
