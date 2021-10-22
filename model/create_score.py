@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-''' - Mise à jour de la date de fin du tour en question ROUND
+''' - Lecture de la table ROUND_MATCH
+    - saisie les scores du tour
+    - Mise à jour de la date de fin du tour en question ROUND
     - Ecriture dans la table SCORE
     - Rmise à blanc de la table ROUND_MATCH'''
 
@@ -13,7 +15,7 @@ db = TinyDB('db/db.json')
 
 
 class Create_Score():
-   
+
     def insert_score(self, id_tournament, round, line_score):
 
         """Writing the recording SCORE """
@@ -27,7 +29,6 @@ class Create_Score():
             'score': score,
         }
         score_table.insert(serialized_score)
-        print("ok")
         return
 
     def insert_round(self, players_round, id_tournament, round, datedebut):
@@ -50,5 +51,4 @@ class Create_Score():
         ''' remove record of round_match'''
         tournament_round = db.table('round_match')
         tournament_round.remove(where('id') == int(id_tournament))
-        db.clear_cache()
-        return
+        db.table('round_match').clear_cache()
