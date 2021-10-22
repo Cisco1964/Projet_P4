@@ -10,7 +10,7 @@ from view.v_players import V_Players
 
 
 class Control_Players:
-    
+
     def __init__(self):
 
         db = TinyDB('db/db.json')
