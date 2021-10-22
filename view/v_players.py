@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
-from tkinter import ttk
 from tkcalendar import DateEntry
 
 
@@ -45,8 +44,3 @@ class V_Players():
 
         self.champ4 = tk.Entry(self.master, textvariable=self.classement)
         self.champ4.grid(row=5, column=1, padx=5, pady=5)
-        
-
-    def main(self):
-        pass
-        #self.mainloop()
