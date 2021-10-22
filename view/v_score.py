@@ -28,7 +28,7 @@ class V_Score():
         global id_tournament
         id_tournament = (serialized_round_match[0]['id'])
         players = (serialized_round_match[0]['joueurs'])
-        
+
         match = []
         table_match = []
         for item in players:
