@@ -32,7 +32,6 @@ def round(id_tournament, round):
 
         # first round
         my_players = []
-        # print(id_tournament, round)
         if round == "round1":
             # sort the list by ranking
             i = len(players_sorted)//2
@@ -86,13 +85,11 @@ def other_round(id_tournament, players_sorted, my_players):
                     if item[0] != i[0]:
                         m = [item[0], i[0]]
                         elem = compare(m, list_match)
-                        # print(elem)
                         if elem is not False:
                             my_players.append(m)
                             array_ctl.append(i[0])
                             array_ctl.append(item[0])
                             break
-    # print(array_ctl)
 
 
 def compare(m, list_match):
@@ -108,15 +105,16 @@ def compare(m, list_match):
 
 def research_round_match(id_tournament):
 
-        '''recherche s'il y a un tour en cours'''
-        tournament_round = db.table('round_match')
-        serialized_round_match = tournament_round.all()
-        result = []
-        for element in serialized_round_match:
-            if element['id'] == id_tournament:
-                result = element
-                break
-        return result
+    '''recherche si il y a un tour en cours'''
+    tournament_round = db.table('round_match')
+    serialized_round_match = tournament_round.all()
+    result = []
+    for element in serialized_round_match:
+        if element['id'] == id_tournament:
+            result = element
+            break
+    return result
+
 
 def search(i, players_sorted):
 
