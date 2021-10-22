@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+''' Création des joueurs'''
+
 from tinydb import TinyDB
 
 
