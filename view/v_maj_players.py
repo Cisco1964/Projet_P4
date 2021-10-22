@@ -10,9 +10,10 @@ from tinydb import TinyDB
 db = TinyDB('db/db.json')
 players_table = db.table('players')
 
+
 class V_Maj_Players():
 
-   def __init__(self, master):
+    def __init__(self, master):
 
         self.master = master
         serialized_players = players_table.all()
