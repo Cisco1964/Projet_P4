@@ -4,13 +4,12 @@
 ''' Mise à jour du classement des joueurs'''
 
 import tkinter as tk
-from tkinter.constants import DISABLED, END, NORMAL
 from tkinter.messagebox import showwarning
 from model.update_players import Update_Players
 from view.v_maj_players import V_Maj_Players
 
 
-class Maj_Players(tk.Toplevel):
+class Maj_Players:
 
     def __init__(self):
 
