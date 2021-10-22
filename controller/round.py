@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from tinydb import TinyDB, Query
+from tinydb import TinyDB, where
 from itertools import islice
 from tkinter.messagebox import showinfo, showerror
 from model.create_round import add_round
@@ -11,11 +11,8 @@ db = TinyDB('db/db.json')
 
 def round(id_tournament, round):
 
-    round_table = db.table('round_match')
-    Round_table = Query()
-    result = round_table.search(Round_table.id == int(id_tournament))
-    print(id_tournament, round)
-    if result != []:
+    matchs = research_round_match(int(id_tournament))
+    if matchs != []:
         showerror("Résultat", "il y a un tour en attente de saisie pour ce tournoi")
     else:
         players_table = db.table('players')
@@ -112,6 +109,18 @@ def compare(m, list_match):
         if m == i or n == i:
             return False
 
+
+def research_round_match(id_tournament):
+
+        '''recherche s'il y a un tour en cours'''
+        tournament_round = db.table('round_match')
+        serialized_round_match = tournament_round.all()
+        result = []
+        for element in serialized_round_match:
+            if element['id'] == id_tournament:
+                result = element
+                break
+        return result
 
 def search(i, players_sorted):
 
