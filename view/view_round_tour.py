@@ -35,7 +35,7 @@ class View_round_tour(tk.Toplevel):
 
         # research all the round for the tournament
         result = research_round(id_tournament)
-        print(result)
+        # print(result)
         i = 0
         for item in result:
             tv.insert(parent='', index=i, iid=i, values=(item['round'], item['datedebut'],
