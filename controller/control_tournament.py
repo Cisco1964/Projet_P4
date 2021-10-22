@@ -32,7 +32,7 @@ class Control_Tournament:
     def valid(self):
 
         ''' Validation'''
-        print("v_tournament", self.view.players)
+        # print("v_tournament", self.view.players)
         resdate = self.view.datedeb.get() <= self.view.datefin.get()
         ''' control of the entry and validation if all ok '''
         if (self.view.nom.get() == ""
