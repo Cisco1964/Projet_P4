@@ -4,14 +4,15 @@
 ''' Choix du tournoi puis appel du module suivant le paramètre d'entré
     - my_choice = nom ou classement : liste des joueurs par tournoi
     - my_choice = round : liste des rounds par tournoi
-    - my_choice = match : liste tous les matchs par tournoi
+    - my_choice = match : liste de tous les matchs par tournoi
     - my_choice = score : saisie des sores
 '''
 
 import tkinter as tk
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 from tkinter.constants import W
-from controller.score import update_score
+from tkinter.messagebox import showerror
+from controller.control_score import Control_Score
 from view.view_players_tour import View_tour
 from view.view_round_tour import View_round_tour
 from view.view_match_tour import View_match_tour
@@ -68,8 +69,25 @@ class View_choice_tour(tk.Toplevel):
                 view_round(id_tournament)
             else:
                 # saisie des scores
-                update_score(id_tournament)
+                round_match = []
+                round_match = self.search_round_match(id_tournament)
+                print(round_match)
+                if round_match == []:
+                    showerror("Résultat", "Aucun tour en attente de saisie pour ce tournoi")
+                else:
+                    Control_Score(round_match)
 
+
+    def search_round_match(self, id_tournament):
+
+        '''research the record'''
+        db.clear_cache()
+        tournament_round = db.table('round_match')
+        Round_table = Query()
+        result = tournament_round.search(Round_table.id == int(id_tournament))
+        print("result", result)
+        return result
+        
     def quit(self):
 
         '''Exit'''
