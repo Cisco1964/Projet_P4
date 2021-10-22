@@ -43,14 +43,14 @@ def round(id_tournament, round):
             add_round(id_tournament, round, my_players)
         else:
             # research the other rounds
-            other_round(id_tournament, round, players_sorted, my_players)
+            other_round(id_tournament, players_sorted, my_players)
             # writing of the round
             add_round(id_tournament, round, my_players)
             # information message
             showinfo("Résultat", "le {} a été généré".format(round))
 
 
-def other_round(id_tournament, round, players_sorted, my_players):
+def other_round(id_tournament, players_sorted, my_players):
 
     # store matches already played
     result = research_score(id_tournament)
