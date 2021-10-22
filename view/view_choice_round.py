@@ -4,7 +4,7 @@
 ''' Choix du tournoi pour la génération du round suivant'''
 
 import tkinter as tk
-from tinydb import TinyDB, where
+from tinydb import TinyDB
 from tkinter.constants import W
 from tkinter.messagebox import showerror
 from controller.round import round as call_round
@@ -47,7 +47,6 @@ class View_choice_round(tk.Toplevel):
         if value != "":
             id = int(value)
             matchs = self.research_round_match(id)
-            print("coucou", matchs)
             if matchs != []:
                 showerror("Résultat", "Il y a un tour en attente de saisie pour ce tournoi")
             else:
@@ -74,7 +73,7 @@ class View_choice_round(tk.Toplevel):
             if element['id'] == id:
                 result = element
                 break
-        print(result)
+        # print(result)
         return result
 
     def research_round(self, id):
