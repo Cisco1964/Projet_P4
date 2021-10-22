@@ -71,7 +71,7 @@ class View_choice_tour(tk.Toplevel):
                 # saisie des scores
                 round_match = []
                 round_match = self.search_round_match(id_tournament)
-                print(round_match)
+                # print(round_match)
                 if round_match == []:
                     showerror("Résultat", "Aucun tour en attente de saisie pour ce tournoi")
                 else:
