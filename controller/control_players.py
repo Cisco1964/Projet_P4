@@ -8,7 +8,9 @@ import datetime
 from model.create_players import Create_Players
 from view.v_players import V_Players
 
+
 class Control_Players:
+    
     def __init__(self):
 
         db = TinyDB('db/db.json')
@@ -23,9 +25,6 @@ class Control_Players:
         self.view.quit_btn.config(command=self.quit)
         self.view.valid_btn.config(command=self.valid)
         self.view.reset_btn.config(command=self.reset)
-
-    def main(self):
-        self.view.main()
 
     def valid(self):
 
@@ -76,6 +75,6 @@ class Control_Players:
         '''Exit'''
         self.root.destroy()
 
+
 if __name__ == '__main__':
     c = Control_Players()
-    c.main()
