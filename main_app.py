@@ -12,6 +12,8 @@ from view.view_choice_tour import View_choice_tour
 from view.view_choice_round import View_choice_round
 from view.view_clear_table import View_clear_table
 
+''' Menu principal'''
+
 
 db = TinyDB('db/db.json')
 
