@@ -103,4 +103,4 @@ class V_Tournament():
         for item, status in self.var.items():
             if status.get():
                 self.players.append(item)
-        return self 
+        return self
